@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PetAssist — Smart Pet Care</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Auth Setup -->
+    <script src="js/store.js"></script>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <i class="fas fa-paw"></i>
+                <span>PetAssist</span>
+            </a>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span class="hamburger"></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
+                <script>
+                    if (Store.getCurrentUser()) {
+                        document.write(`
+                            <li><a href="pages/dashboard.html" class="nav-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                            <li><a href="pages/pets.html" class="nav-link"><i class="fas fa-dog"></i> My Pets</a></li>
+                            <li><a href="pages/care-center.html" class="nav-link"><i class="fas fa-hands-helping"></i> Care Center</a></li>
+                            <li><a href="pages/guide.html" class="nav-link"><i class="fas fa-book"></i> Guide</a></li>
+                            <li class="nav-user-section">
+                                <a href="javascript:void(0)" onclick="Store.logout()" class="nav-link nav-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                            </li>
+                        `);
+                    } else {
+                        document.write(`
+                            <li><a href="pages/login.html" class="nav-link"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                            <li><a href="pages/register.html" class="nav-link btn-nav-register"><i class="fas fa-user-plus"></i> Register</a></li>
+                        `);
+                    }
+                </script>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <section class="hero">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="fas fa-sparkles"></i>
+                    Smart Pet Management Platform
+                </div>
+                <h1>Keep Your Pets <span class="gradient-text">Happy & Healthy</span></h1>
+                <p>PetAssist is your all-in-one companion for managing pet health, vaccinations, appointments, and emergencies.</p>
+                <div class="hero-buttons" id="hero-buttons-container">
+                    <script>
+                        if (Store.getCurrentUser()) {
+                            document.write(`<a href="pages/dashboard.html" class="btn btn-primary btn-lg"><i class="fas fa-tachometer-alt"></i> Go to Dashboard</a>`);
+                        } else {
+                            document.write(`
+                                <a href="pages/register.html" class="btn btn-primary btn-lg"><i class="fas fa-rocket"></i> Get Started Free</a>
+                                <a href="pages/login.html" class="btn btn-secondary btn-lg"><i class="fas fa-sign-in-alt"></i> Sign In</a>
+                            `);
+                        }
+                    </script>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Grid... (Skipping for brevity but simulating space) -->
+        <section class="features" style="height: 400px; display: flex; align-items:center; justify-content:center;">
+             <div class="glass-card-static text-center" style="padding:60px 40px; width: 100%; max-width: 800px;">
+                <h2 style="font-size:1.8rem;margin-bottom:12px;">The best care for your pets.</h2>
+                <p class="text-muted">Now fully powered natively in your browser! Hosted seamlessly on Netlify.</p>
+             </div>
+        </section>
+
+    </main>
+
+    <!-- JS -->
+    <script src="js/main.js"></script>
+</body>
+</html>

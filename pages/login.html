@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login — PetAssist</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/store.js"></script>
+</head>
+<body class="auth-page" style="display:flex; justify-content:center; align-items:center; min-height:100vh;">
+    
+    <div class="auth-card glass-card">
+        <div class="auth-header" style="text-align:center; margin-bottom:24px;">
+            <i class="fas fa-paw text-primary" style="font-size:3rem;"></i>
+            <h2>Welcome Back</h2>
+            <p class="text-muted">Sign in to manage your pets</p>
+        </div>
+
+        <div id="alert-box" style="display:none; padding:10px; margin-bottom:15px; border-radius:5px; background:rgba(239, 68, 68, 0.2); color:#ef4444; border:1px solid rgba(239, 68, 68, 0.3);"></div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label>Email Address</label>
+                <div class="input-icon-wrapper">
+                    <i class="fas fa-envelope input-icon"></i>
+                    <input type="email" id="email" class="form-control" placeholder="user@example.com" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <div class="input-icon-wrapper">
+                    <i class="fas fa-lock input-icon"></i>
+                    <input type="password" id="password" class="form-control" placeholder="••••••••" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+        </form>
+
+        <div class="auth-footer" style="text-align:center; margin-top:24px; font-size:0.9rem;">
+            Don't have an account? <a href="register.html" class="text-primary" style="text-decoration:none; font-weight:600;">Sign up</a><br><br>
+            <a href="../index.html" class="text-muted"><i class="fas fa-arrow-left"></i> Back to Home</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const pass = document.getElementById('password').value;
+            
+            const result = Store.login(email, pass);
+            if (result.success) {
+                window.location.href = 'dashboard.html';
+            } else {
+                const box = document.getElementById('alert-box');
+                box.style.display = 'block';
+                box.innerText = result.error;
+            }
+        });
+    </script>
+</body>
+</html>

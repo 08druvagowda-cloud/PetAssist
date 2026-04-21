@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account — PetAssist</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/store.js"></script>
+</head>
+<body class="auth-page" style="display:flex; justify-content:center; align-items:center; min-height:100vh; overflow-y:auto; padding:40px 0;">
+    
+    <div class="auth-card glass-card">
+        <div class="auth-header" style="text-align:center; margin-bottom:24px;">
+            <i class="fas fa-user-plus text-primary" style="font-size:3rem;"></i>
+            <h2>Join PetAssist</h2>
+            <p class="text-muted">Create a free account</p>
+        </div>
+
+        <div id="alert-box" style="display:none; padding:10px; margin-bottom:15px; border-radius:5px; background:rgba(239, 68, 68, 0.2); color:#ef4444; border:1px solid rgba(239, 68, 68, 0.3);"></div>
+
+        <form id="registerForm">
+            <div class="form-group">
+                <label>Full Name</label>
+                <div class="input-icon-wrapper">
+                    <i class="fas fa-user input-icon"></i>
+                    <input type="text" id="name" class="form-control" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Email Address</label>
+                <div class="input-icon-wrapper">
+                    <i class="fas fa-envelope input-icon"></i>
+                    <input type="email" id="email" class="form-control" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Phone Number</label>
+                <div class="input-icon-wrapper">
+                    <i class="fas fa-phone input-icon"></i>
+                    <input type="tel" id="phone" class="form-control" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <div class="input-icon-wrapper">
+                    <i class="fas fa-lock input-icon"></i>
+                    <input type="password" id="password" class="form-control" minlength="4" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+        </form>
+
+        <div class="auth-footer" style="text-align:center; margin-top:24px; font-size:0.9rem;">
+            Already have an account? <a href="login.html" class="text-primary" style="text-decoration:none; font-weight:600;">Sign in</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const res = Store.register(
+                document.getElementById('name').value,
+                document.getElementById('email').value,
+                document.getElementById('password').value,
+                document.getElementById('phone').value
+            );
+            if (res.success) {
+                alert("Registration successful! Please log in.");
+                window.location.href = 'login.html';
+            } else {
+                const box = document.getElementById('alert-box');
+                box.style.display = 'block';
+                box.innerText = res.error;
+            }
+        });
+    </script>
+</body>
+</html>
