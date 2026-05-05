@@ -1,0 +1,16 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    { "source": "/index.php",               "destination": "/index.html" },
+    { "source": "/pages/dashboard.php",     "destination": "/pages/dashboard.html" },
+    { "source": "/pages/login.php",         "destination": "/pages/login.html" },
+    { "source": "/pages/register.php",      "destination": "/pages/register.html" },
+    { "source": "/pages/pets.php",          "destination": "/pages/pets.html" },
+    { "source": "/pages/logout.php",        "destination": "/index.html" },
+    {
+      "source": "/pages/:phppage.php",
+      "destination": "/pages/dashboard.html"
+    }
+  ]
+}
