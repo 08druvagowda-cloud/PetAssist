@@ -39,8 +39,8 @@
         </form>
 
         <div class="auth-footer" style="text-align:center; margin-top:24px; font-size:0.9rem;">
-            Don't have an account? <a href="register.html" class="text-primary" style="text-decoration:none; font-weight:600;">Sign up</a><br><br>
-            <a href="../index.html" class="text-muted"><i class="fas fa-arrow-left"></i> Back to Home</a>
+            Don't have an account? <a href="/pages/register" class="text-primary" style="text-decoration:none; font-weight:600;">Sign up</a><br><br>
+            <a href="/" class="text-muted"><i class="fas fa-arrow-left"></i> Back to Home</a>
         </div>
     </div>
 
@@ -52,7 +52,7 @@
             
             const result = Store.login(email, pass);
             if (result.success) {
-                window.location.href = 'dashboard.html';
+                window.location.href = '/pages/dashboard';
             } else {
                 const box = document.getElementById('alert-box');
                 box.style.display = 'block';

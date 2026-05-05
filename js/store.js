@@ -60,7 +60,7 @@ const Store = {
 
     logout() {
         sessionStorage.removeItem('current_user');
-        window.location.href = '../index.html';
+        window.location.href = '/';
     },
 
     getCurrentUser() {
@@ -108,8 +108,12 @@ function calculateAge(dob) {
 
 // Ensure pages are protected
 const path = window.location.pathname;
-const isPublicPage = path.endsWith('index.html') || path.endsWith('login.html') || path.endsWith('register.html') || path === '/' || path === '';
+// Support both .html URLs (local) and clean URLs (Vercel/Netlify with cleanUrls)
+const isPublicPage = 
+    path.endsWith('index.html') || path === '/' || path === '' || path === '/index' ||
+    path.endsWith('login.html')    || path.endsWith('/login') ||
+    path.endsWith('register.html') || path.endsWith('/register');
 
 if (!Store.getCurrentUser() && !isPublicPage) {
-    window.location.href = '../pages/login.html';
+    window.location.href = '/pages/login';
 }

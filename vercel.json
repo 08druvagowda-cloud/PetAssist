@@ -9,7 +9,7 @@
     { "source": "/pages/pets.php",          "destination": "/pages/pets.html" },
     { "source": "/pages/logout.php",        "destination": "/index.html" },
     {
-      "source": "/pages/:phppage.php",
+      "source": "/pages/(.*)\\.php",
       "destination": "/pages/dashboard.html"
     }
   ]

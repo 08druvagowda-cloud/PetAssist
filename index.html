@@ -15,7 +15,7 @@
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <a href="index.html" class="nav-logo">
+            <a href="/" class="nav-logo">
                 <i class="fas fa-paw"></i>
                 <span>PetAssist</span>
             </a>
@@ -23,22 +23,22 @@
                 <span class="hamburger"></span>
             </button>
             <ul class="nav-menu" id="navMenu">
-                <li><a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="/" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
                 <script>
                     if (Store.getCurrentUser()) {
                         document.write(`
-                            <li><a href="pages/dashboard.html" class="nav-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-                            <li><a href="pages/pets.html" class="nav-link"><i class="fas fa-dog"></i> My Pets</a></li>
-                            <li><a href="pages/care-center.html" class="nav-link"><i class="fas fa-hands-helping"></i> Care Center</a></li>
-                            <li><a href="pages/guide.html" class="nav-link"><i class="fas fa-book"></i> Guide</a></li>
+                            <li><a href="/pages/dashboard" class="nav-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                            <li><a href="/pages/pets" class="nav-link"><i class="fas fa-dog"></i> My Pets</a></li>
+                            <li><a href="/pages/care-center" class="nav-link"><i class="fas fa-hands-helping"></i> Care Center</a></li>
+                            <li><a href="/pages/guide" class="nav-link"><i class="fas fa-book"></i> Guide</a></li>
                             <li class="nav-user-section">
                                 <a href="javascript:void(0)" onclick="Store.logout()" class="nav-link nav-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
                             </li>
                         `);
                     } else {
                         document.write(`
-                            <li><a href="pages/login.html" class="nav-link"><i class="fas fa-sign-in-alt"></i> Login</a></li>
-                            <li><a href="pages/register.html" class="nav-link btn-nav-register"><i class="fas fa-user-plus"></i> Register</a></li>
+                            <li><a href="/pages/login" class="nav-link"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                            <li><a href="/pages/register" class="nav-link btn-nav-register"><i class="fas fa-user-plus"></i> Register</a></li>
                         `);
                     }
                 </script>
@@ -59,11 +59,11 @@
                 <div class="hero-buttons" id="hero-buttons-container">
                     <script>
                         if (Store.getCurrentUser()) {
-                            document.write(`<a href="pages/dashboard.html" class="btn btn-primary btn-lg"><i class="fas fa-tachometer-alt"></i> Go to Dashboard</a>`);
+                            document.write(`<a href="/pages/dashboard" class="btn btn-primary btn-lg"><i class="fas fa-tachometer-alt"></i> Go to Dashboard</a>`);
                         } else {
                             document.write(`
-                                <a href="pages/register.html" class="btn btn-primary btn-lg"><i class="fas fa-rocket"></i> Get Started Free</a>
-                                <a href="pages/login.html" class="btn btn-secondary btn-lg"><i class="fas fa-sign-in-alt"></i> Sign In</a>
+                                <a href="/pages/register" class="btn btn-primary btn-lg"><i class="fas fa-rocket"></i> Get Started Free</a>
+                                <a href="/pages/login" class="btn btn-secondary btn-lg"><i class="fas fa-sign-in-alt"></i> Sign In</a>
                             `);
                         }
                     </script>
