@@ -46,5 +46,6 @@
 
     <!-- JavaScript -->
     <script src="<?php echo $basePath; ?>/js/main.js"></script>
+    <script src="<?php echo $basePath; ?>/js/ai-assistant.js"></script>
 </body>
 </html>

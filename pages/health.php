@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 }
 
 // Fetch user's pets
-$pets_query = $conn->prepare("SELECT id, pet_name, type FROM pets WHERE user_id = ? ORDER BY pet_name");
+$pets_query = $conn->prepare("SELECT id, pet_name, type, breed, dob FROM pets WHERE user_id = ? ORDER BY pet_name");
 $pets_query->bind_param("i", $user_id);
 $pets_query->execute();
 $pets = $pets_query->get_result()->fetch_all(MYSQLI_ASSOC);
@@ -49,7 +49,20 @@ $selected_pet_id = isset($_GET['pet_id']) ? (int)$_GET['pet_id'] : (count($pets)
 
 // Fetch logs for selected pet
 $health_logs = [];
+$selected_pet_name = '';
+$selected_pet_type = 'Dog';
+$selected_pet_age = 'Unknown';
+
 if ($selected_pet_id > 0) {
+    foreach ($pets as $p) {
+        if ($p['id'] == $selected_pet_id) {
+            $selected_pet_name = $p['pet_name'];
+            $selected_pet_type = $p['type'];
+            $selected_pet_age = calculateAge($p['dob']);
+            break;
+        }
+    }
+
     $h_query = $conn->prepare("SELECT * FROM health_logs WHERE pet_id = ? ORDER BY log_date DESC");
     $h_query->bind_param("i", $selected_pet_id);
     $h_query->execute();
@@ -100,12 +113,13 @@ require_once '../includes/header.php';
                 <!-- History -->
                 <div style="flex: 3; min-width: 300px;">
                     <div class="glass-card-static">
-                        <?php 
-                            $selected_pet_name = '';
-                            foreach($pets as $p) { if($p['id'] == $selected_pet_id) $selected_pet_name = $p['pet_name']; }
-                        ?>
-                        <div class="section-title">
-                            <i class="fas fa-clipboard-list"></i> Logs for <?php echo htmlspecialchars($selected_pet_name); ?>
+                        <div class="section-title" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+                            <div><i class="fas fa-clipboard-list"></i> Logs for <?php echo htmlspecialchars($selected_pet_name); ?></div>
+                            <?php if (!empty($health_logs)): ?>
+                                <button class="btn-ai-sparkle" onclick="showPetAIAnalysisModal('<?php echo addslashes($selected_pet_name); ?>', '<?php echo addslashes($selected_pet_type); ?>', '<?php echo addslashes($selected_pet_age); ?>', '<?php echo $health_logs[0]['food']; ?>', '<?php echo $health_logs[0]['activity']; ?>', '<?php echo $health_logs[0]['behavior']; ?>')">
+                                    <i class="fas fa-brain"></i> Latest AI Health Evaluation
+                                </button>
+                            <?php endif; ?>
                         </div>
 
                         <?php if (empty($health_logs)): ?>
@@ -120,11 +134,16 @@ require_once '../includes/header.php';
                                     $badge = $log['status'] == 'Healthy' ? 'badge-success' : ($log['status'] == 'Warning' ? 'badge-warning' : 'badge-danger');
                                 ?>
                                     <div class="glass-card" style="padding: 20px;">
-                                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+                                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:8px;">
                                             <div style="font-size:0.85rem; color:var(--text-muted);">
                                                 <i class="fas fa-calendar-alt"></i> <?php echo date('M d, Y - h:i A', strtotime($log['log_date'])); ?>
                                             </div>
-                                            <span class="badge <?php echo $badge; ?>"><?php echo $log['status']; ?></span>
+                                            <div style="display:flex; align-items:center; gap:10px;">
+                                                <span class="badge <?php echo $badge; ?>"><?php echo $log['status']; ?></span>
+                                                <button class="btn-ai-sparkle" style="padding:3px 8px; font-size:0.75rem;" onclick="showPetAIAnalysisModal('<?php echo addslashes($selected_pet_name); ?>', '<?php echo addslashes($selected_pet_type); ?>', '<?php echo addslashes($selected_pet_age); ?>', '<?php echo $log['food']; ?>', '<?php echo $log['activity']; ?>', '<?php echo $log['behavior']; ?>')">
+                                                    <i class="fas fa-brain"></i> AI Insight
+                                                </button>
+                                            </div>
                                         </div>
                                         
                                         <div class="grid-2" style="gap: 12px;">

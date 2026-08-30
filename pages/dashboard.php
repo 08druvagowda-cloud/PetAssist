@@ -181,6 +181,29 @@ require_once '../includes/header.php';
         </div>
     </div>
     
+    <!-- PetAssist AI Assistant Banner -->
+    <div class="glass-card-static mb-32 animate-fade" style="background: linear-gradient(135deg, rgba(108, 92, 231, 0.15) 0%, rgba(0, 206, 201, 0.12) 100%); border: 1px solid rgba(108, 92, 231, 0.35);">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+            <div style="display:flex; align-items:center; gap:16px;">
+                <div style="width:50px; height:50px; border-radius:50%; background:linear-gradient(135deg, #6C5CE7, #00CEC9); display:flex; align-items:center; justify-content:center; color:white; font-size:1.4rem; box-shadow:0 4px 20px rgba(108,92,231,0.4);">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div>
+                    <h3 style="font-size:1.15rem; font-weight:700; color:#fff; margin-bottom:4px;">PetAssist AI Veterinary Assistant</h3>
+                    <p style="font-size:0.85rem; color:var(--text-secondary); margin:0;">Have a concern about pet symptoms, diet toxicity, or emergency care? Get instant triage insights.</p>
+                </div>
+            </div>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                <button class="btn btn-sm btn-outline" onclick="PetAIChatWidget.open(); PetAIChatWidget.sendChip('Check dog symptoms')">
+                    <i class="fas fa-stethoscope"></i> Check Symptoms
+                </button>
+                <button class="btn btn-sm btn-primary" onclick="PetAIChatWidget.open()">
+                    <i class="fas fa-comments"></i> Ask AI Bot
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Quick Actions -->
     <div class="mt-32 mb-32 animate-fade" style="animation-delay: 0.3s;">
         <h3 style="font-size:1.1rem; margin-bottom:12px; color:var(--text-secondary);">Quick Links</h3>
