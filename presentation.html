@@ -344,6 +344,9 @@
             .slide-frame {
                 display: flex !important;
                 flex-direction: column !important;
+                animation: none !important;
+                opacity: 1 !important;
+                transform: none !important;
                 width: 16in !important;
                 height: 9in !important;
                 min-height: 9in !important;
@@ -360,6 +363,16 @@
                 box-shadow: none !important;
                 position: relative !important;
                 overflow: hidden !important;
+            }
+            .slide-frame::after {
+                content: "PetAssist Web Platform • Department of CSE, VTU • Slide " attr(data-slide) " of 14";
+                position: absolute;
+                bottom: 24px;
+                right: 64px;
+                font-family: 'JetBrains Mono', monospace;
+                font-size: 0.75rem;
+                color: rgba(154, 163, 194, 0.6);
+                letter-spacing: 1px;
             }
             .slide-frame:last-of-type {
                 page-break-after: avoid !important;
