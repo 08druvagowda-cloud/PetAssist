@@ -23,6 +23,7 @@
     { "source": "/pages/lost-found",        "destination": "/pages/lost-found.html" },
     { "source": "/pages/admin.php",         "destination": "/pages/admin.html" },
     { "source": "/pages/admin",             "destination": "/pages/admin.html" },
+    { "source": "/presentation",            "destination": "/presentation.html" },
     { "source": "/pages/logout.php",        "destination": "/index.html" }
   ]
 }

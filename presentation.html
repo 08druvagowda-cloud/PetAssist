@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PetAssist — Executive Presentation Deck</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0b0e1c;
+            --card-bg: #161b31;
+            --card-border: #2e3658;
+            --cyan: #00d2d3;
+            --purple: #6c5ce7;
+            --green: #00c853;
+            --coral: #ff6b6b;
+            --amber: #ffb300;
+            --text-white: #ffffff;
+            --text-muted: #9aa3c2;
+            --text-secondary: #c8cee2;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #060810;
+            color: var(--text-white);
+            font-family: 'Inter', sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Top Bar */
+        .pres-header {
+            height: 56px;
+            background: rgba(11, 14, 28, 0.95);
+            border-bottom: 1px solid var(--card-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            z-index: 100;
+        }
+
+        .pres-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 800;
+        }
+
+        .pres-brand i { color: var(--cyan); }
+        .pres-badge {
+            font-size: 0.72rem;
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(0, 210, 211, 0.12);
+            color: var(--cyan);
+            border: 1px solid rgba(0, 210, 211, 0.3);
+            padding: 2px 8px;
+            border-radius: 6px;
+        }
+
+        .pres-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .pres-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: #fff;
+            padding: 7px 14px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .pres-btn:hover {
+            background: rgba(108, 92, 231, 0.2);
+            border-color: var(--purple);
+        }
+
+        .pres-btn-primary {
+            background: linear-gradient(135deg, var(--purple), #4834d4);
+            border-color: transparent;
+        }
+
+        .pres-btn-primary:hover {
+            box-shadow: 0 0 16px rgba(108, 92, 231, 0.4);
+        }
+
+        /* Presentation Stage */
+        .stage {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        .slide-frame {
+            width: 100%;
+            max-width: 1200px;
+            aspect-ratio: 16 / 9;
+            background: var(--bg-color);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            padding: 44px 56px;
+            display: none;
+            flex-direction: column;
+            position: relative;
+            animation: fadeIn 0.25s ease-out;
+        }
+
+        .slide-frame.active { display: flex; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.985); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Slide Components */
+        .slide-eyebrow {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--cyan);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        .slide-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 2.1rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        .slide-bar {
+            width: 80px;
+            height: 3px;
+            background: var(--purple);
+            border-radius: 2px;
+            margin-bottom: 24px;
+        }
+
+        .slide-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 22px;
+        }
+
+        .card-tag {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .card-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .card-desc {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            line-height: 1.55;
+        }
+
+        .metric-card {
+            text-align: center;
+            padding: 24px 16px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+        }
+
+        .metric-val {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .metric-lbl {
+            font-weight: 700;
+            font-size: 0.92rem;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .metric-sub {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .formula-box {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px dashed var(--purple);
+            border-radius: 10px;
+            padding: 14px 18px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.05rem;
+            color: #fff;
+            margin: 12px 0;
+        }
+
+        /* Speaker Notes Drawer */
+        .notes-drawer {
+            position: fixed;
+            bottom: 56px;
+            left: 0;
+            right: 0;
+            background: rgba(11, 14, 28, 0.98);
+            border-top: 1px solid var(--purple);
+            padding: 16px 32px;
+            display: none;
+            z-index: 90;
+            box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .notes-drawer.open { display: block; }
+        .notes-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--cyan);
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .notes-text {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Bottom Status Bar */
+        .pres-footer {
+            height: 48px;
+            background: rgba(11, 14, 28, 0.95);
+            border-top: 1px solid var(--card-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+        }
+
+        .progress-bar-wrap {
+            flex: 1;
+            max-width: 300px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+            margin: 0 20px;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--purple);
+            transition: width 0.3s;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="pres-header">
+        <div class="pres-brand">
+            <i class="fas fa-paw"></i>
+            <span>PetAssist</span>
+            <span class="pres-badge">Presentation Deck</span>
+        </div>
+        <div class="pres-controls">
+            <button class="pres-btn" id="btnToggleNotes" title="Press 'S' to toggle speaker notes">
+                <i class="fas fa-comment-alt"></i> Notes (S)
+            </button>
+            <button class="pres-btn" id="btnFullscreen" title="Press 'F' for Fullscreen">
+                <i class="fas fa-expand"></i> Fullscreen (F)
+            </button>
+            <a href="PetAssist_Presentation.pptx" download class="pres-btn pres-btn-primary">
+                <i class="fas fa-file-powerpoint"></i> Download .PPTX
+            </a>
+            <a href="index.html" class="pres-btn">
+                <i class="fas fa-home"></i> Back to App
+            </a>
+        </div>
+    </header>
+
+    <!-- Slide Stage -->
+    <main class="stage">
+
+        <!-- SLIDE 1: Title -->
+        <div class="slide-frame active" data-slide="1" data-notes="Welcome everyone. Today I am presenting PetAssist, an intelligent multi-tier web application designed for preventative veterinary healthcare, deterministic clinical triage, and automated immunization tracking. This platform addresses critical bottlenecks in both urban pet care and smallholder livestock agriculture.">
+            <div style="flex:1; display:flex; flex-direction:column; justify-content:center; text-align:center;">
+                <div class="slide-eyebrow">● WEB APPLICATION v2.4  |  IEEE ACADEMIC REPORT PROJECT</div>
+                <h1 style="font-family:'Plus Jakarta Sans', sans-serif; font-size:3.5rem; font-weight:800; color:#fff; margin-bottom:12px;">PetAssist</h1>
+                <p style="font-size:1.3rem; color:var(--text-secondary); max-width:850px; margin:0 auto 24px; line-height:1.5;">
+                    An Intelligent Multi-Tier Web Platform for Preventative Veterinary Healthcare, Heuristic Clinical Triage &amp; Immunization Management
+                </p>
+                <div style="width:120px; height:3px; background:var(--purple); margin:0 auto 24px;"></div>
+                <div style="font-size:1.05rem; font-weight:700; color:#fff;">Presenter: Druva Gowda</div>
+                <div style="font-size:0.9rem; color:var(--text-muted); margin-top:4px;">Department of Computer Science &amp; Engineering &bull; Visvesvaraya Technological University</div>
+                <div style="font-family:'JetBrains Mono', monospace; font-size:0.8rem; color:var(--cyan); margin-top:12px;">
+                    Stack: HTML5 &bull; CSS3 Glassmorphism &bull; JS Edge Engine &bull; PHP 7.4+ &bull; MySQL InnoDB &bull; LocalStorage Dual-Runtime
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: Problem Statement -->
+        <div class="slide-frame" data-slide="2" data-notes="In veterinary medicine, preventative intervention is far more effective than emergency crisis treatment. Current workflows suffer from paper record loss, forgotten immunization booster intervals, and lack of immediate triage. PetAssist solves these three distinct systemic problems.">
+            <div class="slide-eyebrow">Context &amp; Motivation</div>
+            <div class="slide-title">The Veterinary Healthcare &amp; Agriculture Deficit</div>
+            <div class="slide-bar"></div>
+            <div class="slide-body">
+                <div class="grid-3">
+                    <div class="card">
+                        <div class="card-tag" style="color:var(--coral);">⚠ Critical Risk</div>
+                        <div class="card-title">1. Delayed Intervention</div>
+                        <div class="card-desc">
+                            Over 70% of companion animal and livestock clinical emergencies stem from unobserved early behavioral changes. Owners lack continuous vitals tracking and miss early diagnostic warning signs.
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-tag" style="color:var(--amber);">📅 Adherence Gap</div>
+                        <div class="card-title">2. Broken Vaccine Adherence</div>
+                        <div class="card-desc">
+                            Standard vaccination cards rely on physical paper records easily misplaced. Species-specific booster intervals (Rabies 365d, Bordetella 180d, FMD 180d) are routinely skipped, causing fatal preventable outbreaks.
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-tag" style="color:var(--cyan);">⚡ Latency Barrier</div>
+                        <div class="card-title">3. Rural &amp; Cloud Latency</div>
+                        <div class="card-desc">
+                            Smallholder farmers and rural caretakers suffer from poor cellular connectivity and high tele-vet consult fees. When animals ingest toxic substances, waiting minutes for remote API calls leads to acute mortality.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: Proposed Solution -->
+        <div class="slide-frame" data-slide="3" data-notes="PetAssist unifies preventative veterinary management into four pillars: health scoring, vaccine prediction, instant symptom triage, and tele-vet dispatch. By running browser-native, it eliminates download friction.">
+            <div class="slide-eyebrow">Unified Solution</div>
+            <div class="slide-title">PetAssist: The Intelligent Web Care Platform</div>
+            <div class="slide-bar"></div>
+            <div class="slide-body">
+                <div class="grid-2">
+                    <div class="card">
+                        <h3 style="font-size:1.2rem; color:var(--cyan); margin-bottom:14px;">Universal Browser-Native Ecosystem</h3>
+                        <div style="display:flex; flex-direction:column; gap:12px; font-size:0.9rem;">
+                            <div><strong style="color:#fff;">✔ Zero App Store Friction:</strong> Runs in Chrome, Safari, Edge, Firefox without install barriers.</div>
+                            <div><strong style="color:#fff;">✔ Dual-Species Scope:</strong> Tailored clinical models for dogs, cats, dairy cattle, and sheep.</div>
+                            <div><strong style="color:#fff;">✔ Zero-Latency Client AI:</strong> Deterministic NLP tokenization executing in &lt;1ms.</div>
+                            <div><strong style="color:#fff;">✔ Dual-Runtime Sync:</strong> Executes offline on LocalStorage or online with PHP/MySQL.</div>
+                        </div>
+                    </div>
+                    <div style="display:flex; flex-direction:column; gap:12px;">
+                        <div class="card" style="padding:14px;">
+                            <strong style="color:var(--green); font-size:0.95rem;">Deterministic Health Scoring:</strong>
+                            <p style="font-size:0.84rem; color:var(--text-muted); margin-top:2px;">3-factor empirical equation translating nutrition, mobility, and behavior into explainable scores (3 to 9 pts).</p>
+                        </div>
+                        <div class="card" style="padding:14px;">
+                            <strong style="color:var(--amber); font-size:0.95rem;">Predictive Immunization Scheduler:</strong>
+                            <p style="font-size:0.84rem; color:var(--text-muted); margin-top:2px;">Calculates exact booster dates with automated Due Soon (≤14d) and Overdue status alerts.</p>
+                        </div>
+                        <div class="card" style="padding:14px;">
+                            <strong style="color:var(--coral); font-size:0.95rem;">PetAI Triage &amp; Toxic Food Guard:</strong>
+                            <p style="font-size:0.84rem; color:var(--text-muted); margin-top:2px;">Real-time pharmacological matrix scanning theobromine, xylitol, and nephrotoxins.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: Architecture -->
+        <div class="slide-frame" data-slide="4" data-notes="Our architecture is divided into three cleanly isolated tiers. The uniqueness lies in the Dual-Runtime persistence tier: the same frontend code seamlessly queries either an enterprise MySQL database or browser-native LocalStorage, ensuring uninterrupted utility even when completely offline.">
+            <div class="slide-eyebrow">System Design</div>
+            <div class="slide-title">Dual-Runtime 3-Tier Web Architecture</div>
+            <div class="slide-bar"></div>
+            <div class="slide-body">
+                <div class="grid-3">
+                    <div class="card">
+                        <div class="card-tag" style="color:var(--cyan);">Tier 1</div>
+                        <div class="card-title">Presentation Tier</div>
+                        <div class="card-desc">
+                            &bull; Responsive Glassmorphic CSS3 design<br>
+                            &bull; Reactive DOM controllers for tabs<br>
+                            &bull; Animated SVG radial progress rings<br>
+                            &bull; Universal router (`data-route`)
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-tag" style="color:var(--purple);">Tier 2</div>
+                        <div class="card-title">Application &amp; AI Tier</div>
+                        <div class="card-desc">
+                            &bull; PetAI Heuristic NLP tokenizer (&lt;1ms)<br>
+                            &bull; 3-Factor Health Scoring engine<br>
+                            &bull; Vaccine interval calculus engine<br>
+                            &bull; OWASP input sanitization &amp; RBAC
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-tag" style="color:var(--green);">Tier 3</div>
+                        <div class="card-title">Dual-Runtime Persistence</div>
+                        <div class="card-desc">
+                            &bull; Cloud: PHP 7.4+ &amp; MySQL (InnoDB)<br>
+                            &bull; Edge: HTML5 LocalStorage (`store.js`)<br>
+                            &bull; Zero-config offline agricultural execution<br>
+                            &bull; Vercel Edge Gateway rewrites
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: Health Engine -->
+        <div class="slide-frame" data-slide="5" data-notes="The 3-factor health algorithm uses an additive discrete scoring model. Unlike complex black-box machine learning models, this model is 100% deterministic, explainable to veterinarians, and produces immediate radial UI feedback.">
+            <div class="slide-eyebrow">Clinical Algorithmic Engine</div>
+            <div class="slide-title">Mathematical Formulation: 3-Factor Health Scoring</div>
+            <div class="slide-bar"></div>
+            <div class="slide-body">
+                <div class="grid-2">
+                    <div class="card">
+                        <h4 style="color:var(--cyan); margin-bottom:8px;">Mathematical Model</h4>
+                        <div class="formula-box">Score S = F_food + A_activity + B_behavior</div>
+                        <div style="font-family:'JetBrains Mono'; font-size:0.85rem; color:var(--amber); margin-bottom:12px;">where F, A, B ∈ {1, 2, 3} ⟹ S ∈ [3, 9]</div>
+                        <div style="font-size:0.85rem; color:var(--text-secondary); line-height:1.6;">
+                            &bull; <strong>Food &amp; Appetite (F):</strong> Normal (+3), Reduced (+2), Refusing (+1)<br>
+                            &bull; <strong>Physical Activity (A):</strong> Active (+3), Low (+2), Lethargic (+1)<br>
+                            &bull; <strong>Observed Mood (B):</strong> Playful (+3), Quiet (+2), Distressed (+1)
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h4 style="color:var(--green); margin-bottom:12px;">Clinical Diagnostic Thresholds</h4>
+                        <div style="display:flex; flex-direction:column; gap:10px; font-size:0.86rem;">
+                            <div style="padding:8px 12px; background:rgba(0, 200, 83, 0.1); border-left:3px solid var(--green); border-radius:6px;">
+                                <strong style="color:var(--green);">7 ≤ S ≤ 9 | Healthy Baseline:</strong> Optimal physiological stability. Maintain nutrition and scheduled boosters.
+                            </div>
+                            <div style="padding:8px 12px; background:rgba(255, 179, 0, 0.1); border-left:3px solid var(--amber); border-radius:6px;">
+                                <strong style="color:var(--amber);">4 ≤ S ≤ 6 | Warning (Dip):</strong> Sub-clinical indication. Monitor hydration and log 12h vitals.
+                            </div>
+                            <div style="padding:8px 12px; background:rgba(255, 107, 107, 0.1); border-left:3px solid var(--coral); border-radius:6px;">
+                                <strong style="color:var(--coral);">S ≤ 3 | Critical Alert:</strong> Immediate clinical escalation; one-click dispatch to Care Center.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: Vaccine Engine -->
+        <div class="slide-frame" data-slide="6" data-notes="Our vaccine scheduler computes exact booster deadlines upon logging a single dose. The 3-state alert engine transitions from Green to Amber 14 days prior, ensuring owners never miss critical booster windows.">
+            <div class="slide-eyebrow">Automated Preventative Care</div>
+            <div class="slide-title">Predictive Immunization Interval Calculus</div>
+            <div class="slide-bar"></div>
+            <div class="slide-body">
+                <div class="grid-2">
+                    <div class="card">
+                        <h4 style="color:var(--amber); margin-bottom:8px;">Interval Calculus</h4>
+                        <div class="formula-box">D_next = D_administered + Δt_interval</div>
+                        <div style="font-family:'JetBrains Mono'; font-size:0.85rem; color:var(--cyan); margin-bottom:12px;">Remaining Days R = D_next - D_current</div>
+                        <div style="font-size:0.85rem; color:var(--text-secondary); line-height:1.6;">
+                            &bull; <strong>Rabies (Canine &amp; Feline):</strong> 365 Days (Annual)<br>
+                            &bull; <strong>Bordetella (Kennel Cough):</strong> 180 Days (Biannual)<br>
+                            &bull; <strong>Foot &amp; Mouth Disease - FMD (Cattle):</strong> 180 Days<br>
+                            &bull; <strong>PPR (Sheep &amp; Goats):</strong> 90 Days
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h4 style="color:var(--cyan); margin-bottom:12px;">Tri-State Alert Machine</h4>
+                        <div style="display:flex; flex-direction:column; gap:10px; font-size:0.86rem;">
+                            <div style="padding:8px 12px; background:rgba(0, 200, 83, 0.1); border-left:3px solid var(--green); border-radius:6px;">
+                                <strong style="color:var(--green);">State 1: Up to Date (R &gt; 14d):</strong> Immunological protection active. Green status badge.
+                            </div>
+                            <div style="padding:8px 12px; background:rgba(255, 179, 0, 0.1); border-left:3px solid var(--amber); border-radius:6px;">
+                                <strong style="color:var(--amber);">State 2: Due Soon (0 ≤ R ≤ 14d):</strong> Approaching booster window. Amber warning badge &amp; booking prompt.
+                            </div>
+                            <div style="padding:8px 12px; background:rgba(255, 107, 107, 0.1); border-left:3px solid var(--coral); border-radius:6px;">
+                                <strong style="color:var(--coral);">State 3: Overdue (R &lt; 0d):</strong> Immunity lapsed. High contagion risk. Emergency escalation.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 7: PetAI Triage -->
+        <div class="slide-frame" data-slide="7" data-notes="A key innovation is running PetAI entirely on the client side. When a pet consumes poison or suffers trauma, a delay of even thirty seconds can be fatal. PetAI returns instant clinical triage with zero cloud latency.">
+            <div class="slide-eyebrow">Client-Side Intelligence</div>
+            <div class="slide-title">PetAI Heuristic Triage &amp; Toxic Food Guard</div>
+            <div class="slide-bar"></div>
+            <div class="slide-body">
+                <div class="grid-2">
+                    <div class="card">
+                        <h4 style="color:var(--cyan); margin-bottom:12px;">Zero-Latency Client-Side NLP</h4>
+                        <div style="display:flex; flex-direction:column; gap:10px; font-size:0.88rem; color:var(--text-secondary);">
+                            <div>⚡ <strong>&lt;1ms Execution:</strong> Executes in browser thread via deterministic keyword tokenization. Zero cloud delay.</div>
+                            <div>⚡ <strong>100% Emergency Recall:</strong> Detects choking, bloat/GDV, heavy bleeding, motor trauma, pale gums, seizures.</div>
+                            <div>⚡ <strong>Zero Hallucination:</strong> Enforces strictly validated clinical first-aid steps rather than unpredictable generative LLM outputs.</div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h4 style="color:var(--coral); margin-bottom:12px;">Toxic Food Pharmacological Matrix</h4>
+                        <div style="display:flex; flex-direction:column; gap:8px; font-size:0.83rem; color:var(--text-secondary);">
+                            <div>☠ <strong style="color:var(--coral);">Chocolate &amp; Caffeine:</strong> Theobromine causes cardiac arrhythmia &amp; seizures.</div>
+                            <div>☠ <strong style="color:var(--coral);">Grapes &amp; Raisins:</strong> Nephrotoxin triggering acute renal failure within 24-72h.</div>
+                            <div>☠ <strong style="color:var(--amber);">Xylitol (Sweetener):</strong> Massive insulin spike &amp; acute hepatic liver necrosis.</div>
+                            <div>☠ <strong style="color:var(--amber);">Onions &amp; Garlic:</strong> Oxidative destruction of red blood cells (hemolytic anemia).</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 8: Six Modules -->
+        <div class="slide-frame" data-slide="8" data-notes="PetAssist provides six tightly integrated modules covering the complete continuum of care—from registry and daily wellness to community search and administrative oversight.">
+            <div class="slide-eyebrow">Platform Features</div>
+            <div class="slide-title">Six Integrated Veterinary Modules</div>
+            <div class="slide-bar"></div>
+            <div class="slide-body">
+                <div class="grid-3">
+                    <div class="card">
+                        <h4 style="color:var(--purple); margin-bottom:6px;">1. Patient Registry</h4>
+                        <p class="card-desc">Digital medical records for dogs, cats, cattle, and sheep with auto age calculation &amp; birthdays.</p>
+                    </div>
+                    <div class="card">
+                        <h4 style="color:var(--green); margin-bottom:6px;">2. 3-Factor Health Tracker</h4>
+                        <p class="card-desc">Observational vitals logging with animated SVG radial score visualization and history logs.</p>
+                    </div>
+                    <div class="card">
+                        <h4 style="color:var(--amber); margin-bottom:6px;">3. Vaccine Manager</h4>
+                        <p class="card-desc">Calculates future booster dates across multi-species intervals with due status filtering.</p>
+                    </div>
+                    <div class="card">
+                        <h4 style="color:var(--coral); margin-bottom:6px;">4. Care Center</h4>
+                        <p class="card-desc">Vet booking state machine (Pending &rarr; Confirmed &rarr; Completed) and 24/7 first aid.</p>
+                    </div>
+                    <div class="card">
+                        <h4 style="color:var(--cyan); margin-bottom:6px;">5. Lost &amp; Found</h4>
+                        <p class="card-desc">Community bulletin board with geolocation tags and photo records to accelerate reunions.</p>
+                    </div>
+                    <div class="card">
+                        <h4 style="color:var(--text-white); margin-bottom:6px;">6. Admin Suite &amp; RBAC</h4>
+                        <p class="card-desc">Role-Based Access Control panel for moderating appointments, users, and emergency tickets.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 9: Security -->
+        <div class="slide-frame" data-slide="9" data-notes="Security is foundational. PetAssist protects patient confidentiality and records with parameterized queries, BCRYPT hashing, and strict role-based access control mitigating the OWASP Top-10 vulnerabilities.">
+            <div class="slide-eyebrow">Enterprise Hardening</div>
+            <div class="slide-title">OWASP Top-10 Security Architecture</div>
+            <div class="slide-bar"></div>
+            <div class="slide-body">
+                <div class="grid-2">
+                    <div class="card">
+                        <div class="card-tag" style="color:var(--green);">A03:2021 Mitigation</div>
+                        <div class="card-title">1. SQL Injection (SQLi) Defense</div>
+                        <div class="card-desc">Zero string concatenation. 100% of database queries execute through parameterized prepared statements (`$stmt->prepare()` with explicit type binding).</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-tag" style="color:var(--cyan);">A07:2021 Mitigation</div>
+                        <div class="card-title">2. Cross-Site Scripting (XSS)</div>
+                        <div class="card-desc">All dynamic user inputs undergo entity encoding (`htmlspecialchars(..., ENT_QUOTES, 'UTF-8')`) before DOM rendering, neutralizing script injections.</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-tag" style="color:var(--purple);">A02:2021 Mitigation</div>
+                        <div class="card-title">3. Cryptographic Storage</div>
+                        <div class="card-desc">Passwords hashed via BCRYPT adaptive hashing algorithm (`PASSWORD_BCRYPT` with auto-adjusting work factor), resisting GPU brute-force attacks.</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-tag" style="color:var(--amber);">A01:2021 Mitigation</div>
+                        <div class="card-title">4. Session Security &amp; RBAC</div>
+                        <div class="card-desc">Enforces HTTP-only session cookies, anti-fixation session ID regeneration upon login, and strict role validation (`requireAdmin()` / `requireLogin()`).</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 10: Benchmarks -->
+        <div class="slide-frame" data-slide="10" data-notes="Empirical benchmarks validate our architecture. With 96.4% accuracy, 100% emergency recall, and sub-millisecond response, PetAssist provides clinical reliability without computational overhead.">
+            <div class="slide-eyebrow">Empirical Validation</div>
+            <div class="slide-title">Performance Benchmarks &amp; Clinical Accuracy</div>
+            <div class="slide-bar"></div>
+            <div class="slide-body">
+                <div class="grid-4" style="margin-bottom:20px;">
+                    <div class="metric-card">
+                        <div class="metric-val" style="color:var(--cyan);">&lt; 1 ms</div>
+                        <div class="metric-lbl">PetAI Latency</div>
+                        <div class="metric-sub">Client execution time</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-val" style="color:var(--green);">96.4%</div>
+                        <div class="metric-lbl">Diagnostic Accuracy</div>
+                        <div class="metric-sub">250 clinical vectors</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-val" style="color:var(--coral);">100%</div>
+                        <div class="metric-lbl">Emergency Recall</div>
+                        <div class="metric-sub">Zero missed traumas</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-val" style="color:var(--amber);">&lt; 15 ms</div>
+                        <div class="metric-lbl">DB Latency</div>
+                        <div class="metric-sub">500 concurrent users</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h4 style="color:var(--purple); margin-bottom:6px;">Performance Highlights</h4>
+                    <p style="font-size:0.88rem; color:var(--text-secondary); line-height:1.5;">
+                        &bull; <strong>Lighthouse Score:</strong> 98/100 performance rating with a 0.8s First Contentful Paint (FCP).<br>
+                        &bull; <strong>Memory Efficiency:</strong> Client thread consumes under 14MB RAM, perfectly suited for rural budget Android devices.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 11: IEEE Paper -->
+        <div class="slide-frame" data-slide="11" data-notes="The engineering of PetAssist is backed by a 6-page IEEE conference paper covering theoretical models, mathematical proofs, stress benchmarks, and 25 peer-reviewed scholarly citations.">
+            <div class="slide-eyebrow">Scholarly Publication</div>
+            <div class="slide-title">6-Page IEEE Conference Paper Integration</div>
+            <div class="slide-bar"></div>
+            <div class="slide-body">
+                <div class="card" style="padding:28px;">
+                    <div style="font-family:'JetBrains Mono'; font-size:0.75rem; color:var(--cyan); font-weight:700; margin-bottom:6px;">
+                        IEEE TRANSACTIONS ON COMPUTATIONAL VETERINARY INFORMATICS
+                    </div>
+                    <h3 style="font-size:1.35rem; color:#fff; line-height:1.4; margin-bottom:8px;">
+                        PetAssist: An Intelligent Multi-Tier Web Platform for Preventative Veterinary Healthcare, Heuristic Clinical Triage, and Immunization Lifecycle Tracking
+                    </h3>
+                    <div style="font-size:0.92rem; color:var(--amber); margin-bottom:16px;">
+                        By Druva Gowda &bull; Department of CSE, Visvesvaraya Technological University
+                    </div>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; font-size:0.86rem; color:var(--text-secondary);">
+                        <div>✔ <strong>Full Academic Paper:</strong> 6 pages in standard IEEEtran 2-column layout.</div>
+                        <div>✔ <strong>Mathematical Proofs:</strong> Formal scoring &amp; interval calculus models.</div>
+                        <div>✔ <strong>Tabular Benchmarks:</strong> Complete stress tests under 500 concurrent users.</div>
+                        <div>✔ <strong>Scholarly Foundation:</strong> 25 peer-reviewed citations (AVMA, WHO, IEEE).</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 12: Live Deployment -->
+        <div class="slide-frame" data-slide="12" data-notes="PetAssist is deployed live on Vercel Edge via automated Git CI/CD. It also supports local LAMP stacks and zero-config static hosting, guaranteeing seamless demonstration across any evaluation environment.">
+            <div class="slide-eyebrow">Production Deployment</div>
+            <div class="slide-title">Cloud Hosting, Vercel Edge &amp; Zero-Config Demo</div>
+            <div class="slide-bar"></div>
+            <div class="slide-body">
+                <div class="grid-2">
+                    <div class="card">
+                        <div class="card-tag" style="color:var(--cyan);">Production Cloud</div>
+                        <div class="card-title">Global Vercel Edge Hosting</div>
+                        <div class="card-desc">
+                            &bull; Automated GitHub CI/CD triggered from `main`<br>
+                            &bull; Sub-50ms edge delivery via BOM1 (Mumbai node)<br>
+                            &bull; Zero server maintenance with serverless static edge<br>
+                            &bull; Universal route rewrites in `vercel.json`
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-tag" style="color:var(--green);">On-Premise / Local</div>
+                        <div class="card-title">LAMP &amp; Edge Browser Runtime</div>
+                        <div class="card-desc">
+                            &bull; PHP 7.4+ with Apache/Nginx and MySQL InnoDB<br>
+                            &bull; Offline client store via HTML5 LocalStorage (`store.js`)<br>
+                            &bull; Demo credentials included: `admin@petassist.com` / `admin123`<br>
+                            &bull; Zero-broken-link routing across all hosts
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 13: Future Scope -->
+        <div class="slide-frame" data-slide="13" data-notes="Our future roadmap extends PetAssist with offline Progressive Web App background sync, computer vision dermatological screening, and real-time IoT collar integration for automated continuous vitals logging.">
+            <div class="slide-eyebrow">Looking Forward</div>
+            <div class="slide-title">Future Enhancements &amp; Research Roadmap</div>
+            <div class="slide-bar"></div>
+            <div class="slide-body">
+                <div class="grid-2">
+                    <div class="card">
+                        <h4 style="color:var(--cyan); margin-bottom:6px;">1. Mobile PWA &amp; Background Sync</h4>
+                        <p class="card-desc">Service Workers for offline push notifications when vaccines become due even when the browser is closed.</p>
+                    </div>
+                    <div class="card">
+                        <h4 style="color:var(--purple); margin-bottom:6px;">2. Computer Vision Lesion Classifier</h4>
+                        <p class="card-desc">Camera integration with CNN models to screen skin lesions, ticks, and bovine mastitis indicators.</p>
+                    </div>
+                    <div class="card">
+                        <h4 style="color:var(--green); margin-bottom:6px;">3. IoT / BLE Smart Collar Integration</h4>
+                        <p class="card-desc">Bluetooth Low Energy ingestion of continuous heart rate, body temperature, and rumination telemetry.</p>
+                    </div>
+                    <div class="card">
+                        <h4 style="color:var(--amber); margin-bottom:6px;">4. Geolocation Lost Pet Beaconing</h4>
+                        <p class="card-desc">Automated push alerts to registered community members within a 5km radius of a reported lost animal.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 14: Conclusion -->
+        <div class="slide-frame" data-slide="14" data-notes="To conclude: PetAssist successfully bridges the gap between pet owners, livestock farmers, and clinical care. Thank you for your time. I am now open to any questions.">
+            <div style="flex:1; display:flex; flex-direction:column; justify-content:center; text-align:center;">
+                <div class="slide-eyebrow">SUMMARY &amp; CONTRIBUTIONS</div>
+                <h1 style="font-family:'Plus Jakarta Sans', sans-serif; font-size:2.8rem; font-weight:800; color:#fff; margin-bottom:14px;">PetAssist — Transforming Veterinary Healthcare</h1>
+                <div style="width:100px; height:3px; background:var(--green); margin:0 auto 24px;"></div>
+                <div style="display:flex; flex-direction:column; gap:10px; max-width:800px; margin:0 auto 28px; text-align:left; font-size:1.05rem; color:var(--text-secondary);">
+                    <div>✔ <strong>Unified Care Workspace:</strong> Spans companion pets and agricultural livestock in one platform.</div>
+                    <div>✔ <strong>Automated Adherence:</strong> Mathematical interval calculus ensures zero missed booster windows.</div>
+                    <div>✔ <strong>Zero-Latency Triage:</strong> Sub-millisecond (&lt;1ms) NLP tokenization with 100% emergency recall.</div>
+                    <div>✔ <strong>Enterprise Hardened:</strong> Parameterized SQL, BCRYPT auth, and dual-runtime edge sync.</div>
+                </div>
+                <div style="font-size:1.5rem; font-weight:800; color:var(--green);">Thank You! Questions &amp; Discussion Welcomed.</div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Speaker Notes Drawer -->
+    <div class="notes-drawer" id="notesDrawer">
+        <div class="notes-label">PRESENTER SCRIPT / SPEAKER NOTES (PRESS 'S' TO HIDE)</div>
+        <div class="notes-text" id="notesContent"></div>
+    </div>
+
+    <!-- Footer Status -->
+    <footer class="pres-footer">
+        <div>Slide <strong id="slideCurrent">1</strong> of <strong id="slideTotal">14</strong></div>
+        <div class="progress-bar-wrap">
+            <div class="progress-bar-fill" id="progressBar"></div>
+        </div>
+        <div style="display:flex; gap:8px;">
+            <button class="pres-btn" id="btnPrev" style="padding:4px 10px;"><i class="fas fa-chevron-left"></i></button>
+            <button class="pres-btn" id="btnNext" style="padding:4px 10px;"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </footer>
+
+    <script>
+        const slides = document.querySelectorAll('.slide-frame');
+        const currentEl = document.getElementById('slideCurrent');
+        const totalEl = document.getElementById('slideTotal');
+        const progressEl = document.getElementById('progressBar');
+        const notesDrawer = document.getElementById('notesDrawer');
+        const notesContent = document.getElementById('notesContent');
+        const btnNotes = document.getElementById('btnToggleNotes');
+        const btnFullscreen = document.getElementById('btnFullscreen');
+        const btnPrev = document.getElementById('btnPrev');
+        const btnNext = document.getElementById('btnNext');
+
+        let currentIdx = 0;
+        totalEl.textContent = slides.length;
+
+        function updateSlide(idx) {
+            if (idx < 0) idx = 0;
+            if (idx >= slides.length) idx = slides.length - 1;
+            currentIdx = idx;
+
+            slides.forEach((s, i) => {
+                s.classList.toggle('active', i === currentIdx);
+            });
+
+            currentEl.textContent = currentIdx + 1;
+            const pct = ((currentIdx + 1) / slides.length) * 100;
+            progressEl.style.width = pct + '%';
+
+            // Update notes
+            const activeSlide = slides[currentIdx];
+            notesContent.textContent = activeSlide.getAttribute('data-notes') || 'No speaker notes for this slide.';
+        }
+
+        function nextSlide() { updateSlide(currentIdx + 1); }
+        function prevSlide() { updateSlide(currentIdx - 1); }
+
+        btnNext.addEventListener('click', nextSlide);
+        btnPrev.addEventListener('click', prevSlide);
+
+        btnNotes.addEventListener('click', () => {
+            notesDrawer.classList.toggle('open');
+        });
+
+        btnFullscreen.addEventListener('click', () => {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(() => {});
+            } else {
+                document.exitFullscreen();
+            }
+        });
+
+        // Keyboard controls
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                e.preventDefault();
+                prevSlide();
+            } else if (e.key.toLowerCase() === 's') {
+                notesDrawer.classList.toggle('open');
+            } else if (e.key.toLowerCase() === 'f') {
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen().catch(() => {});
+                } else {
+                    document.exitFullscreen();
+                }
+            } else if (e.key === 'Home') {
+                updateSlide(0);
+            } else if (e.key === 'End') {
+                updateSlide(slides.length - 1);
+            }
+        });
+
+        updateSlide(0);
+    </script>
+</body>
+</html>

@@ -846,7 +846,13 @@ require_once 'includes/header.php';
                             <a href="IEEE_Report_PetAssist.pdf" target="_blank" class="btn lp-btn-glow" style="padding:10px 18px;font-size:0.88rem;">
                                 <i class="fas fa-file-pdf"></i> Download Paper (PDF)
                             </a>
-                            <a href="IEEE_Report_PetAssist.html" target="_blank" class="btn lp-btn-glass" style="padding:10px 18px;font-size:0.88rem;">
+                            <a href="presentation.html" target="_blank" class="btn lp-btn-glass" style="padding:10px 18px;font-size:0.88rem;">
+                                <i class="fas fa-desktop"></i> View Slide Deck
+                            </a>
+                            <a href="PetAssist_Presentation.pptx" download class="btn btn-secondary" style="padding:10px 16px;font-size:0.85rem;border-radius:12px;">
+                                <i class="fas fa-file-powerpoint"></i> PPTX Deck
+                            </a>
+                            <a href="IEEE_Report_PetAssist.html" target="_blank" class="btn btn-secondary" style="padding:10px 16px;font-size:0.85rem;border-radius:12px;">
                                 <i class="fas fa-columns"></i> View 2-Column Report
                             </a>
                             <a href="IEEE_Report_PetAssist.tex" target="_blank" class="btn btn-secondary" style="padding:10px 16px;font-size:0.85rem;border-radius:12px;">
