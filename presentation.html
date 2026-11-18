@@ -307,6 +307,99 @@
             background: var(--purple);
             transition: width 0.3s;
         }
+
+        /* High-Definition 16:9 Print & PDF Export Styles */
+        @media print {
+            @page {
+                size: 16in 9in;
+                margin: 0;
+            }
+            *, *::before, *::after {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                box-sizing: border-box !important;
+            }
+            html, body {
+                width: 16in !important;
+                height: auto !important;
+                background: #0b0e1c !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                overflow: visible !important;
+                font-size: 18px !important;
+            }
+            .pres-header,
+            .pres-footer,
+            .notes-drawer,
+            .pres-controls {
+                display: none !important;
+            }
+            .stage {
+                display: block !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                height: auto !important;
+                overflow: visible !important;
+            }
+            .slide-frame {
+                display: flex !important;
+                flex-direction: column !important;
+                width: 16in !important;
+                height: 9in !important;
+                min-height: 9in !important;
+                max-height: 9in !important;
+                page-break-after: always !important;
+                break-after: page !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+                padding: 0.85in 1.1in !important;
+                box-sizing: border-box !important;
+                background: #0b0e1c !important;
+                border: none !important;
+                border-radius: 0 !important;
+                box-shadow: none !important;
+                position: relative !important;
+                overflow: hidden !important;
+            }
+            .slide-frame:last-of-type {
+                page-break-after: avoid !important;
+                break-after: avoid !important;
+            }
+            .slide-title {
+                font-size: 2.6rem !important;
+                margin-bottom: 12px !important;
+            }
+            .slide-eyebrow {
+                font-size: 0.95rem !important;
+                margin-bottom: 8px !important;
+            }
+            .slide-bar {
+                width: 100px !important;
+                height: 4px !important;
+                margin-bottom: 28px !important;
+            }
+            .card {
+                padding: 24px !important;
+                border-radius: 14px !important;
+            }
+            .card-title {
+                font-size: 1.25rem !important;
+            }
+            .card-desc {
+                font-size: 0.95rem !important;
+                line-height: 1.6 !important;
+            }
+            .metric-card {
+                padding: 24px 16px !important;
+            }
+            .metric-val {
+                font-size: 2.8rem !important;
+            }
+            .formula-box {
+                font-size: 1.2rem !important;
+                padding: 16px 20px !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -325,9 +418,18 @@
             <button class="pres-btn" id="btnFullscreen" title="Press 'F' for Fullscreen">
                 <i class="fas fa-expand"></i> Fullscreen (F)
             </button>
-            <a href="PetAssist_Presentation.pptx" download class="pres-btn pres-btn-primary">
-                <i class="fas fa-file-powerpoint"></i> Download .PPTX
+            <a href="PetAssist_Presentation.pdf" download class="pres-btn pres-btn-primary" style="background:linear-gradient(135deg, #ff4757, #ff6b81);border-color:#ff4757;color:#fff;">
+                <i class="fas fa-file-pdf"></i> Download PDF
             </a>
+            <a href="PetAssist_Presentation.pptx" download class="pres-btn">
+                <i class="fas fa-file-powerpoint"></i> .PPTX
+            </a>
+            <a href="PetAssist_Presentation.ppt" download class="pres-btn">
+                <i class="fas fa-file-powerpoint"></i> .PPT
+            </a>
+            <button class="pres-btn" onclick="window.print()" title="Print or save as PDF">
+                <i class="fas fa-print"></i> Print
+            </button>
             <a href="index.html" class="pres-btn">
                 <i class="fas fa-home"></i> Back to App
             </a>

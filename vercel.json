@@ -24,6 +24,9 @@
     { "source": "/pages/admin.php",         "destination": "/pages/admin.html" },
     { "source": "/pages/admin",             "destination": "/pages/admin.html" },
     { "source": "/presentation",            "destination": "/presentation.html" },
+    { "source": "/presentation.pdf",        "destination": "/PetAssist_Presentation.pdf" },
+    { "source": "/presentation.pptx",       "destination": "/PetAssist_Presentation.pptx" },
+    { "source": "/presentation.ppt",        "destination": "/PetAssist_Presentation.ppt" },
     { "source": "/pages/logout.php",        "destination": "/index.html" }
   ]
 }
