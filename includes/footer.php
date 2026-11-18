@@ -14,9 +14,9 @@
                 <div class="footer-links">
                     <h4>Quick Links</h4>
                     <ul>
-                        <li><a href="<?php echo $basePath; ?>/pages/guide.php">Pet Care Guide</a></li>
-                        <li><a href="<?php echo $basePath; ?>/pages/lost-found.php">Lost & Found</a></li>
-                        <li><a href="<?php echo $basePath; ?>/pages/care-center.php">Care Center</a></li>
+                        <li><a href="<?php echo isset($pageHref) ? $pageHref : ($basePath . '/pages/'); ?>guide.php">Pet Care Guide</a></li>
+                        <li><a href="<?php echo isset($pageHref) ? $pageHref : ($basePath . '/pages/'); ?>lost-found.php">Lost & Found</a></li>
+                        <li><a href="<?php echo isset($pageHref) ? $pageHref : ($basePath . '/pages/'); ?>care-center.php">Care Center</a></li>
                     </ul>
                 </div>
                 <div class="footer-links">
@@ -47,5 +47,6 @@
     <!-- JavaScript -->
     <script src="<?php echo $basePath; ?>/js/main.js"></script>
     <script src="<?php echo $basePath; ?>/js/ai-assistant.js"></script>
+    <?php if (!empty($extraScripts)) echo $extraScripts; ?>
 </body>
 </html>

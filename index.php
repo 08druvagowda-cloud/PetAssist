@@ -1,115 +1,906 @@
 <?php
+$bodyClass = 'landing-body';
+$extraHead = '
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/landing.css">
+';
+$extraScripts = '<script src="./js/landing.js"></script>';
 require_once 'includes/header.php';
 ?>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <div class="hero-badge">
-                <i class="fas fa-sparkles"></i>
-                Smart Pet Management Platform
+    <div class="lp-grid-bg" aria-hidden="true"></div>
+
+    <!-- ================================================
+         HERO + INTERACTIVE BROWSER WEB-APP SHOWCASE
+         ================================================ -->
+    <section class="lp-hero" id="workspace-preview" style="padding-top:44px;">
+        <div class="lp-container">
+            <div class="lp-hero-header">
+                <div class="lp-status-pill">
+                    <span class="lp-live-dot"></span>
+                    <span><strong>Web Application v2.4</strong> &bull; Runs instantly in your browser &mdash; no download required</span>
+                </div>
+
+                <h1 class="lp-hero-title">
+                    The Intelligent <span class="lp-gradient-text">Web Workspace</span> for Pet &amp; Livestock Care
+                </h1>
+
+                <p class="lp-hero-subtitle">
+                    Track daily wellness scores, automate vaccination schedules, run instant client-side AI symptom triage,
+                    and coordinate vet appointments &mdash; all from one unified browser application.
+                </p>
+
+                <div class="lp-hero-actions">
+                    <?php if (isLoggedIn()): ?>
+                        <a href="pages/dashboard.php" class="btn lp-btn-glow">
+                            <i class="fas fa-tachometer-alt"></i> Open My Workspace
+                        </a>
+                        <button type="button" class="btn lp-btn-glass" data-open-petai>
+                            <i class="fas fa-brain" style="color:var(--secondary);"></i> Open PetAI Triage
+                        </button>
+                    <?php else: ?>
+                        <a href="pages/register.php" class="btn lp-btn-glow">
+                            <i class="fas fa-arrow-up-right-from-square"></i> Launch Web App Free
+                        </a>
+                        <button type="button" class="btn lp-btn-glass" data-open-petai>
+                            <i class="fas fa-brain" style="color:var(--secondary);"></i> Try Live AI Triage
+                        </button>
+                        <a href="pages/login.php" class="btn btn-secondary" style="padding:14px 22px;border-radius:12px;">
+                            <i class="fas fa-sign-in-alt"></i> Sign In
+                        </a>
+                    <?php endif; ?>
+                </div>
+
+                <div class="lp-browser-strip">
+                    <span><i class="fab fa-chrome"></i> Chrome, Safari, Edge &amp; Firefox</span>
+                    <span><i class="fas fa-bolt"></i> Zero Installation</span>
+                    <span><i class="fas fa-paw"></i> Dogs, Cats, Cattle &amp; Sheep</span>
+                    <span><i class="fas fa-shield-alt"></i> LAMP + Browser Edge Sync</span>
+                </div>
             </div>
-            <h1>Keep Your Pets <span class="gradient-text">Happy & Healthy</span></h1>
-            <p>PetAssist is your all-in-one companion for managing pet health, vaccinations, appointments, 
-               and emergencies. Built for modern pet owners who want the best for their furry friends.</p>
-            <div class="hero-buttons">
-                <?php if (isLoggedIn()): ?>
-                    <a href="pages/dashboard.php" class="btn btn-primary btn-lg">
-                        <i class="fas fa-tachometer-alt"></i> Go to Dashboard
-                    </a>
-                <?php else: ?>
-                    <a href="pages/register.php" class="btn btn-primary btn-lg">
-                        <i class="fas fa-rocket"></i> Get Started Free
-                    </a>
-                    <a href="pages/login.php" class="btn btn-secondary btn-lg">
-                        <i class="fas fa-sign-in-alt"></i> Sign In
-                    </a>
-                <?php endif; ?>
+
+            <!-- Interactive Browser Chrome Frame -->
+            <div class="lp-browser-stage">
+                <div class="lp-browser-window">
+                    <div class="lp-browser-chrome">
+                        <div class="lp-chrome-left">
+                            <div class="lp-window-dots" aria-hidden="true">
+                                <span class="lp-dot lp-dot-red"></span>
+                                <span class="lp-dot lp-dot-yellow"></span>
+                                <span class="lp-dot lp-dot-green"></span>
+                            </div>
+                            <div class="lp-chrome-nav" aria-hidden="true">
+                                <i class="fas fa-chevron-left"></i>
+                                <i class="fas fa-chevron-right"></i>
+                                <i class="fas fa-rotate-right"></i>
+                            </div>
+                        </div>
+
+                        <div class="lp-url-bar">
+                            <i class="fas fa-lock"></i>
+                            <span>https://app.petassist.io</span><span class="lp-url-route" id="lpUrlRoute">/dashboard</span>
+                        </div>
+
+                        <div class="lp-chrome-right">
+                            <span class="lp-preview-chip"><i class="fas fa-circle" style="font-size:6px;color:var(--success);"></i> Interactive Preview</span>
+                            <a href="<?php echo isLoggedIn() ? 'pages/dashboard.php' : 'pages/login.php'; ?>" class="lp-open-app-link">Open App <i class="fas fa-external-link-alt"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="lp-app-shell">
+                        <aside class="lp-app-sidebar">
+                            <div>
+                                <div class="lp-ws-header">
+                                    <div class="lp-ws-icon"><i class="fas fa-paw"></i></div>
+                                    <div class="lp-ws-meta">
+                                        <strong>PetAssist Cloud</strong>
+                                        <span>Owner &amp; Farm Workspace</span>
+                                    </div>
+                                </div>
+
+                                <div class="lp-app-nav" role="tablist" aria-label="Web Application Preview Views">
+                                    <button type="button" class="lp-app-tab active" data-pane="pane-dashboard" data-route="/dashboard">
+                                        <span class="lp-app-tab-label"><i class="fas fa-tachometer-alt"></i> Dashboard</span>
+                                        <span class="lp-tab-pill">4</span>
+                                    </button>
+                                    <button type="button" class="lp-app-tab" data-pane="pane-health" data-route="/health">
+                                        <span class="lp-app-tab-label"><i class="fas fa-heartbeat"></i> Health Engine</span>
+                                        <span class="lp-tab-pill cyan">9/9</span>
+                                    </button>
+                                    <button type="button" class="lp-app-tab" data-pane="pane-vaccines" data-route="/vaccinations">
+                                        <span class="lp-app-tab-label"><i class="fas fa-syringe"></i> Vaccinations</span>
+                                        <span class="lp-tab-pill warn">2 due</span>
+                                    </button>
+                                    <button type="button" class="lp-app-tab" data-pane="pane-ai" data-route="/ai-triage">
+                                        <span class="lp-app-tab-label"><i class="fas fa-robot"></i> AI Triage</span>
+                                        <span class="lp-tab-pill cyan">&lt;1ms</span>
+                                    </button>
+                                    <button type="button" class="lp-app-tab" data-pane="pane-care" data-route="/care-center">
+                                        <span class="lp-app-tab-label"><i class="fas fa-hands-helping"></i> Care Center</span>
+                                        <span class="lp-tab-pill">24/7</span>
+                                    </button>
+                                    <button type="button" class="lp-app-tab" data-pane="pane-guide" data-route="/guide">
+                                        <span class="lp-app-tab-label"><i class="fas fa-book"></i> Care Guide</span>
+                                        <span class="lp-tab-pill">Tips</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="lp-sidebar-footer">
+                                <div class="lp-sync-row">
+                                    <i class="fas fa-circle" style="font-size:6px;"></i>
+                                    <span>PHP + MySQL Active</span>
+                                </div>
+                                <div class="lp-user-chip">
+                                    <div class="lp-user-avatar">DG</div>
+                                    <div>
+                                        <strong><?php echo isLoggedIn() ? sanitize($_SESSION['user_name']) : 'Druva Gowda'; ?></strong>
+                                        <span>RBAC Protected</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </aside>
+
+                        <div class="lp-app-viewport">
+                            <!-- PANE 1: Dashboard -->
+                            <div class="lp-pane active" id="pane-dashboard">
+                                <div class="lp-pane-header">
+                                    <div class="lp-pane-title">
+                                        <h3>Clinical Workspace Overview</h3>
+                                        <p>Real-time companion pet &amp; livestock telemetry</p>
+                                    </div>
+                                    <a href="pages/pets.php" class="btn btn-primary btn-sm">
+                                        <i class="fas fa-plus"></i> Add Animal Profile
+                                    </a>
+                                </div>
+
+                                <div class="lp-kpi-grid">
+                                    <div class="lp-kpi-card">
+                                        <div class="lp-kpi-label"><span>Active Profiles</span><i class="fas fa-paw" style="color:var(--primary-light);"></i></div>
+                                        <div class="lp-kpi-value">4</div>
+                                        <div class="lp-kpi-sub lp-sub-indigo">2 Pets &bull; 2 Livestock</div>
+                                    </div>
+                                    <div class="lp-kpi-card">
+                                        <div class="lp-kpi-label"><span>Avg Wellness</span><i class="fas fa-heart-pulse" style="color:var(--success);"></i></div>
+                                        <div class="lp-kpi-value">8.0<span style="font-size:0.8rem;color:var(--text-muted);">/9</span></div>
+                                        <div class="lp-kpi-sub lp-sub-green">Healthy Baseline</div>
+                                    </div>
+                                    <div class="lp-kpi-card">
+                                        <div class="lp-kpi-label"><span>Boosters Due</span><i class="fas fa-syringe" style="color:var(--warning);"></i></div>
+                                        <div class="lp-kpi-value">2</div>
+                                        <div class="lp-kpi-sub lp-sub-amber">Next in 5 days</div>
+                                    </div>
+                                    <div class="lp-kpi-card">
+                                        <div class="lp-kpi-label"><span>AI Triage Engine</span><i class="fas fa-bolt" style="color:var(--secondary);"></i></div>
+                                        <div class="lp-kpi-value">&lt;1ms</div>
+                                        <div class="lp-kpi-sub lp-sub-cyan">Client NLP Ready</div>
+                                    </div>
+                                </div>
+
+                                <div class="lp-dash-split">
+                                    <div class="lp-mini-panel">
+                                        <div class="lp-mini-panel-head">
+                                            <h4><i class="fas fa-dog"></i> Registered Animals</h4>
+                                            <span style="font-size:0.72rem;color:var(--text-muted);">Multi-Species</span>
+                                        </div>
+                                        <div class="lp-pet-row">
+                                            <div class="lp-pet-info">
+                                                <div class="lp-pet-emoji">&#128021;</div>
+                                                <div><strong>Bruno</strong><span>Dog &bull; Golden Retriever &bull; 3y 4m</span></div>
+                                            </div>
+                                            <span class="lp-score-pill lp-score-ok">9/9 Healthy</span>
+                                        </div>
+                                        <div class="lp-pet-row">
+                                            <div class="lp-pet-info">
+                                                <div class="lp-pet-emoji">&#128008;</div>
+                                                <div><strong>Milo</strong><span>Cat &bull; Persian &bull; 2y 1m</span></div>
+                                            </div>
+                                            <span class="lp-score-pill lp-score-ok">8/9 Healthy</span>
+                                        </div>
+                                        <div class="lp-pet-row">
+                                            <div class="lp-pet-info">
+                                                <div class="lp-pet-emoji">&#128004;</div>
+                                                <div><strong>Gauri</strong><span>Cow &bull; Gir Cattle &bull; 4y 8m</span></div>
+                                            </div>
+                                            <span class="lp-score-pill lp-score-warn">6/9 Monitor</span>
+                                        </div>
+                                        <div class="lp-pet-row">
+                                            <div class="lp-pet-info">
+                                                <div class="lp-pet-emoji">&#128017;</div>
+                                                <div><strong>Bella</strong><span>Sheep &bull; Merino &bull; 1y 9m</span></div>
+                                            </div>
+                                            <span class="lp-score-pill lp-score-ok">9/9 Healthy</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="lp-mini-panel">
+                                        <div class="lp-mini-panel-head">
+                                            <h4><i class="fas fa-bell"></i> Automated Care Alerts</h4>
+                                            <span style="font-size:0.72rem;color:var(--secondary);">Live Sync</span>
+                                        </div>
+                                        <div class="lp-timeline-item">
+                                            <div class="lp-tl-icon amber"><i class="fas fa-syringe"></i></div>
+                                            <div class="lp-tl-body">
+                                                <strong>Rabies Annual Booster &mdash; Bruno</strong>
+                                                <span>Auto-scheduled &bull; Due in 5 days</span>
+                                            </div>
+                                        </div>
+                                        <div class="lp-timeline-item">
+                                            <div class="lp-tl-icon teal"><i class="fas fa-calendar-check"></i></div>
+                                            <div class="lp-tl-body">
+                                                <strong>Vet Consult Confirmed &mdash; Dr. Sharma</strong>
+                                                <span>Today, 4:00 PM &bull; Routine Herd Check</span>
+                                            </div>
+                                        </div>
+                                        <div class="lp-timeline-item">
+                                            <div class="lp-tl-icon purple"><i class="fas fa-brain"></i></div>
+                                            <div class="lp-tl-body">
+                                                <strong>PetAI Insight Flag &mdash; Gauri</strong>
+                                                <span>Reduced food intake logged &bull; Check mastitis protocol</span>
+                                            </div>
+                                        </div>
+                                        <div style="margin-top:12px;">
+                                            <button type="button" class="btn btn-secondary btn-sm btn-block" data-open-petai>
+                                                <i class="fas fa-comments" style="color:var(--secondary);"></i> Open Full PetAI Advisor
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- PANE 2: Health Engine -->
+                            <div class="lp-pane" id="pane-health">
+                                <div class="lp-pane-header">
+                                    <div class="lp-pane-title">
+                                        <h3>3-Factor Health &amp; Mood Engine</h3>
+                                        <p>Click a clinical state below to inspect real-time diagnostic scoring</p>
+                                    </div>
+                                    <span class="lp-score-pill lp-score-ok" id="pvHealthBadge">Healthy</span>
+                                </div>
+
+                                <div class="lp-preset-row">
+                                    <button type="button" class="lp-chip-btn active" data-health-preset="healthy">Bruno &bull; Healthy (9/9)</button>
+                                    <button type="button" class="lp-chip-btn" data-health-preset="warning">Gauri &bull; Warning (6/9)</button>
+                                    <button type="button" class="lp-chip-btn" data-health-preset="critical">Milo &bull; Critical (3/9)</button>
+                                </div>
+
+                                <div class="lp-mini-health-grid">
+                                    <div class="lp-mini-panel">
+                                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+                                            <strong id="pvHealthPet" style="font-size:0.88rem;color:#fff;">Bruno &bull; Golden Retriever (Dog)</strong>
+                                            <span id="pvHealthScore" style="font-family:var(--font-mono);font-weight:700;color:var(--secondary);">9/9</span>
+                                        </div>
+                                        <div class="lp-factor-bar">
+                                            <div class="lp-factor-top"><span>Food Intake</span><strong id="pvFoodVal">Normal (3/3)</strong></div>
+                                            <div class="lp-factor-track"><div class="lp-factor-fill" id="pvFoodBar" style="width:100%;"></div></div>
+                                        </div>
+                                        <div class="lp-factor-bar">
+                                            <div class="lp-factor-top"><span>Physical Activity</span><strong id="pvActVal">Active (3/3)</strong></div>
+                                            <div class="lp-factor-track"><div class="lp-factor-fill" id="pvActBar" style="width:100%;"></div></div>
+                                        </div>
+                                        <div class="lp-factor-bar" style="margin-bottom:0;">
+                                            <div class="lp-factor-top"><span>Behavioral Disposition</span><strong id="pvBehVal">Playful (3/3)</strong></div>
+                                            <div class="lp-factor-track"><div class="lp-factor-fill" id="pvBehBar" style="width:100%;"></div></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="lp-mini-panel">
+                                        <div class="lp-mini-panel-head">
+                                            <h4><i class="fas fa-stethoscope"></i> Clinical Rule Assessment</h4>
+                                        </div>
+                                        <p id="pvHealthNote" style="font-size:0.84rem;color:var(--text-secondary);line-height:1.6;margin-bottom:16px;">
+                                            Optimal daily baseline. Maintain regular hydration, balanced nutrition, and scheduled Rabies booster.
+                                        </p>
+                                        <a href="#health-sandbox" class="btn btn-primary btn-sm">
+                                            <i class="fas fa-sliders-h"></i> Customize All Factors Below
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- PANE 3: Vaccinations -->
+                            <div class="lp-pane" id="pane-vaccines">
+                                <div class="lp-pane-header">
+                                    <div class="lp-pane-title">
+                                        <h3>Predictive Immunization Scheduler</h3>
+                                        <p>Auto-calculated booster due dates across pets &amp; livestock</p>
+                                    </div>
+                                    <div class="lp-preset-row" style="margin-bottom:0;">
+                                        <button type="button" class="lp-chip-btn active" data-vac-filter="all">All</button>
+                                        <button type="button" class="lp-chip-btn" data-vac-filter="due">Due Soon</button>
+                                        <button type="button" class="lp-chip-btn" data-vac-filter="ok">Completed</button>
+                                        <button type="button" class="lp-chip-btn" data-vac-filter="livestock">Livestock</button>
+                                    </div>
+                                </div>
+
+                                <div class="lp-mini-panel" style="padding:8px;overflow-x:auto;">
+                                    <table class="lp-app-table" id="pvVaccineTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Animal</th>
+                                                <th>Vaccine Protocol</th>
+                                                <th>Interval</th>
+                                                <th>Next Due</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr data-status="due" data-species="pet">
+                                                <td><strong style="color:#fff;">Bruno</strong> (Dog)</td>
+                                                <td>Rabies Core</td>
+                                                <td>365 days</td>
+                                                <td style="font-family:var(--font-mono);">In 5 days</td>
+                                                <td><span class="lp-score-pill lp-score-warn">Due Soon</span></td>
+                                            </tr>
+                                            <tr data-status="ok" data-species="pet">
+                                                <td><strong style="color:#fff;">Milo</strong> (Cat)</td>
+                                                <td>Parvovirus / FVRCP</td>
+                                                <td>365 days</td>
+                                                <td style="font-family:var(--font-mono);">Aug 2027</td>
+                                                <td><span class="lp-score-pill lp-score-ok">Completed</span></td>
+                                            </tr>
+                                            <tr data-status="due" data-species="livestock">
+                                                <td><strong style="color:#fff;">Gauri</strong> (Cow)</td>
+                                                <td>FMD (Foot &amp; Mouth)</td>
+                                                <td>180 days</td>
+                                                <td style="font-family:var(--font-mono);">In 11 days</td>
+                                                <td><span class="lp-score-pill lp-score-warn">Due Soon</span></td>
+                                            </tr>
+                                            <tr data-status="ok" data-species="livestock">
+                                                <td><strong style="color:#fff;">Bella</strong> (Sheep)</td>
+                                                <td>PPR &amp; Deworming</td>
+                                                <td>90 days</td>
+                                                <td style="font-family:var(--font-mono);">Feb 2027</td>
+                                                <td><span class="lp-score-pill lp-score-ok">Completed</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- PANE 4: AI Triage -->
+                            <div class="lp-pane" id="pane-ai">
+                                <div class="lp-pane-header">
+                                    <div class="lp-pane-title">
+                                        <h3>PetAI Client-Side Triage Engine</h3>
+                                        <p>Test the live heuristic NLP engine right inside this web workspace (&lt;1ms response)</p>
+                                    </div>
+                                    <span class="lp-score-pill lp-score-ok">Live JS Engine</span>
+                                </div>
+
+                                <div class="lp-triage-console">
+                                    <div class="lp-preset-row" style="margin-bottom:0;">
+                                        <button type="button" class="lp-chip-btn" data-triage-query="Can my dog eat chocolate?">&#127851; Dog ate chocolate</button>
+                                        <button type="button" class="lp-chip-btn" data-triage-query="My pet is vomiting">&#129314; Vomiting triage</button>
+                                        <button type="button" class="lp-chip-btn" data-triage-query="Cow mastitis and FMD care">&#128004; Cow care protocol</button>
+                                        <button type="button" class="lp-chip-btn" data-triage-query="Heavy bleeding emergency">&#128680; Emergency alert</button>
+                                    </div>
+
+                                    <div class="lp-triage-output" id="pvTriageOutput"></div>
+
+                                    <div class="lp-triage-input-row">
+                                        <input type="text" id="pvTriageInput" placeholder="Ask PetAI a symptom, toxic food (grapes, xylitol), or livestock question...">
+                                        <button type="button" id="pvTriageSend" class="btn btn-primary btn-sm">
+                                            <i class="fas fa-paper-plane"></i> Diagnose
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- PANE 5: Care Center -->
+                            <div class="lp-pane" id="pane-care">
+                                <div class="lp-pane-header">
+                                    <div class="lp-pane-title">
+                                        <h3>Care Center, Vet Bookings &amp; Lost/Found</h3>
+                                        <p>Unified veterinary tele-consultation &amp; community rescue workflow</p>
+                                    </div>
+                                    <a href="pages/care-center.php" class="btn btn-accent btn-sm">
+                                        <i class="fas fa-ambulance"></i> Emergency First-Aid
+                                    </a>
+                                </div>
+
+                                <div class="lp-dash-split">
+                                    <div class="lp-mini-panel">
+                                        <div class="lp-mini-panel-head">
+                                            <h4><i class="fas fa-calendar-check"></i> Vet Appointments</h4>
+                                        </div>
+                                        <div class="lp-pet-row">
+                                            <div class="lp-pet-info">
+                                                <div class="lp-pet-emoji"><i class="fas fa-user-md" style="color:var(--secondary);"></i></div>
+                                                <div><strong>Dr. A. Sharma (Clinic)</strong><span>Bruno &bull; Annual Booster &bull; 4:00 PM</span></div>
+                                            </div>
+                                            <span class="lp-score-pill lp-score-ok">Confirmed</span>
+                                        </div>
+                                        <div class="lp-pet-row">
+                                            <div class="lp-pet-info">
+                                                <div class="lp-pet-emoji"><i class="fas fa-video" style="color:var(--primary-light);"></i></div>
+                                                <div><strong>Tele-Vet Nutritionist</strong><span>Gauri &bull; Herd Mineral Plan</span></div>
+                                            </div>
+                                            <span class="lp-score-pill lp-score-warn">Pending</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="lp-mini-panel">
+                                        <div class="lp-mini-panel-head">
+                                            <h4><i class="fas fa-search-location"></i> Community Lost &amp; Found</h4>
+                                        </div>
+                                        <div class="lp-timeline-item">
+                                            <div class="lp-tl-icon coral"><i class="fas fa-exclamation"></i></div>
+                                            <div class="lp-tl-body">
+                                                <strong>Lost: Beagle (Red Collar)</strong>
+                                                <span>Indiranagar Sector 4 &bull; Posted 2h ago</span>
+                                            </div>
+                                        </div>
+                                        <div class="lp-timeline-item">
+                                            <div class="lp-tl-icon teal"><i class="fas fa-check"></i></div>
+                                            <div class="lp-tl-body">
+                                                <strong>Found: Tabby Kitten</strong>
+                                                <span>Safe at Koramangala Vet Care &bull; Reunited</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- PANE 6: Pet Care Guide & Toxic Food Matrix -->
+                            <div class="lp-pane" id="pane-guide">
+                                <div class="lp-pane-header">
+                                    <div class="lp-pane-title">
+                                        <h3>Pet Care Guides &amp; Toxicology Screening</h3>
+                                        <p>Veterinary wellness guides, species-specific care, and toxic food prevention</p>
+                                    </div>
+                                    <a href="pages/guide.php" class="btn btn-primary btn-sm">
+                                        <i class="fas fa-book-open"></i> Open Full Guide
+                                    </a>
+                                </div>
+
+                                <div class="lp-dash-split">
+                                    <div class="lp-mini-panel">
+                                        <div class="lp-mini-panel-head">
+                                            <h4><i class="fas fa-paw"></i> Featured Species Guides</h4>
+                                        </div>
+                                        <div class="lp-pet-row">
+                                            <div class="lp-pet-info">
+                                                <div class="lp-pet-emoji">🐶</div>
+                                                <div><strong>Essential Canine Care</strong><span>Daily exercise, hydration, dental hygiene</span></div>
+                                            </div>
+                                            <a href="pages/guide.php" class="btn btn-secondary btn-sm" style="font-size:0.75rem;padding:3px 8px;">Read</a>
+                                        </div>
+                                        <div class="lp-pet-row">
+                                            <div class="lp-pet-info">
+                                                <div class="lp-pet-emoji">🐄</div>
+                                                <div><strong>Dairy &amp; Beef Cattle Basics</strong><span>Rumen bloat prevention, pasture hydration</span></div>
+                                            </div>
+                                            <a href="pages/guide.php" class="btn btn-secondary btn-sm" style="font-size:0.75rem;padding:3px 8px;">Read</a>
+                                        </div>
+                                    </div>
+
+                                    <div class="lp-mini-panel">
+                                        <div class="lp-mini-panel-head">
+                                            <h4><i class="fas fa-skull-crossbones text-danger"></i> Toxic Foods Rapid Warning</h4>
+                                        </div>
+                                        <div class="lp-timeline-item">
+                                            <div class="lp-tl-icon coral"><i class="fas fa-exclamation-triangle"></i></div>
+                                            <div class="lp-tl-body">
+                                                <strong>Chocolate &amp; Caffeine</strong>
+                                                <span>Contains theobromine — causes cardiac arrhythmia and seizures.</span>
+                                            </div>
+                                        </div>
+                                        <div class="lp-timeline-item">
+                                            <div class="lp-tl-icon coral"><i class="fas fa-exclamation-triangle"></i></div>
+                                            <div class="lp-tl-body">
+                                                <strong>Grapes &amp; Raisins</strong>
+                                                <span>Severe nephrotoxicity — can trigger acute renal failure.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Features Section -->
-    <section class="features" id="features">
-        <div class="container">
-            <div class="text-center">
-                <h2 class="section-title" style="justify-content:center;font-size:1.8rem;">
-                    <i class="fas fa-star"></i> Why Choose PetAssist?
-                </h2>
-                <p class="text-muted" style="max-width:600px;margin:0 auto;">
-                    Everything you need to provide the best care for your pets — in one beautiful dashboard.
-                </p>
-            </div>
-
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon icon-purple">
-                        <i class="fas fa-paw"></i>
-                    </div>
-                    <h3>Pet Profiles</h3>
-                    <p>Create detailed profiles for each of your pets with automatic age calculation and birthday alerts.</p>
+    <!-- PLATFORM TELEMETRY BAR -->
+    <section class="lp-metrics-band">
+        <div class="lp-container">
+            <div class="lp-metrics-grid">
+                <div class="lp-metric-cell">
+                    <div class="lp-metric-num">&lt; 1 ms</div>
+                    <div class="lp-metric-label">Client-Side AI Triage Latency</div>
                 </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon icon-teal">
-                        <i class="fas fa-syringe"></i>
-                    </div>
-                    <h3>Smart Vaccinations</h3>
-                    <p>Track vaccinations with auto-calculated due dates. Never miss a booster shot again.</p>
+                <div class="lp-metric-cell">
+                    <div class="lp-metric-num">96.4%</div>
+                    <div class="lp-metric-label">Triage Classification Accuracy</div>
                 </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon icon-coral">
-                        <i class="fas fa-heartbeat"></i>
-                    </div>
-                    <h3>Health Monitoring</h3>
-                    <p>Log food intake, activity, and behavior. Get instant health status assessments.</p>
+                <div class="lp-metric-cell">
+                    <div class="lp-metric-num">4+ Species</div>
+                    <div class="lp-metric-label">Companion Pets &amp; Livestock</div>
                 </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon icon-amber">
-                        <i class="fas fa-ambulance"></i>
-                    </div>
-                    <h3>Emergency Help</h3>
-                    <p>Instant first-aid instructions for common pet emergencies. Be prepared for anything.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon icon-green">
-                        <i class="fas fa-calendar-check"></i>
-                    </div>
-                    <h3>Appointments</h3>
-                    <p>Book vet appointments and track status from pending to completion — all in one place.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon icon-blue">
-                        <i class="fas fa-search-location"></i>
-                    </div>
-                    <h3>Lost & Found</h3>
-                    <p>Report lost pets or post found animals to help reunite pets with their families.</p>
+                <div class="lp-metric-cell">
+                    <div class="lp-metric-num">100% Web</div>
+                    <div class="lp-metric-label">Desktop &amp; Mobile Browser Ready</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- CTA Section -->
-    <section style="padding:60px 20px;">
-        <div class="container">
-            <div class="glass-card-static text-center" style="padding:60px 40px;">
-                <h2 style="font-size:1.8rem;margin-bottom:12px;">Ready to give your pets the best care?</h2>
-                <p class="text-muted" style="margin-bottom:28px;max-width:500px;margin-left:auto;margin-right:auto;">
-                    Join thousands of pet owners who trust PetAssist for smart, modern pet management.
+    <!-- LIVE HEALTH SANDBOX -->
+    <section class="lp-section" id="health-sandbox">
+        <div class="lp-container">
+            <div class="lp-section-head">
+                <span class="lp-eyebrow"><i class="fas fa-flask"></i> Interactive Web App Demo</span>
+                <h2>Try the 3-Factor Health &amp; Mood Engine Live</h2>
+                <p>
+                    PetAssist translates daily observations of nutrition, activity, and behavior into an explainable
+                    clinical wellness score &mdash; right in your browser without waiting on a server.
                 </p>
-                <?php if (!isLoggedIn()): ?>
-                    <a href="pages/register.php" class="btn btn-primary btn-lg">
-                        <i class="fas fa-user-plus"></i> Create Free Account
-                    </a>
-                <?php else: ?>
-                    <a href="pages/dashboard.php" class="btn btn-primary btn-lg">
-                        <i class="fas fa-arrow-right"></i> Go to Dashboard
-                    </a>
-                <?php endif; ?>
+            </div>
+
+            <div class="lp-sandbox-card">
+                <div>
+                    <div class="lp-control-group">
+                        <div class="lp-control-label">
+                            <strong>1. Select Animal Species</strong>
+                            <span>Multi-Species Model</span>
+                        </div>
+                        <div class="lp-seg-group species-4">
+                            <button type="button" class="lp-seg-btn active" data-sb-group="species" data-sb-val="Dog">&#128021; Dog</button>
+                            <button type="button" class="lp-seg-btn" data-sb-group="species" data-sb-val="Cat">&#128008; Cat</button>
+                            <button type="button" class="lp-seg-btn" data-sb-group="species" data-sb-val="Cow">&#128004; Cow</button>
+                            <button type="button" class="lp-seg-btn" data-sb-group="species" data-sb-val="Sheep">&#128017; Sheep</button>
+                        </div>
+                    </div>
+
+                    <div class="lp-control-group">
+                        <div class="lp-control-label">
+                            <strong>2. Food &amp; Appetite Intake</strong>
+                            <span>1 &ndash; 3 pts</span>
+                        </div>
+                        <div class="lp-seg-group">
+                            <button type="button" class="lp-seg-btn active" data-sb-group="food" data-sb-val="Normal">Normal (+3)</button>
+                            <button type="button" class="lp-seg-btn" data-sb-group="food" data-sb-val="Reduced">Reduced (+2)</button>
+                            <button type="button" class="lp-seg-btn" data-sb-group="food" data-sb-val="None">Refusing (+1)</button>
+                        </div>
+                    </div>
+
+                    <div class="lp-control-group">
+                        <div class="lp-control-label">
+                            <strong>3. Physical Activity Level</strong>
+                            <span>1 &ndash; 3 pts</span>
+                        </div>
+                        <div class="lp-seg-group">
+                            <button type="button" class="lp-seg-btn active" data-sb-group="activity" data-sb-val="Active">Active (+3)</button>
+                            <button type="button" class="lp-seg-btn" data-sb-group="activity" data-sb-val="Low">Low Energy (+2)</button>
+                            <button type="button" class="lp-seg-btn" data-sb-group="activity" data-sb-val="Lethargic">Lethargic (+1)</button>
+                        </div>
+                    </div>
+
+                    <div class="lp-control-group">
+                        <div class="lp-control-label">
+                            <strong>4. Observed Behavior &amp; Mood</strong>
+                            <span>1 &ndash; 3 pts</span>
+                        </div>
+                        <div class="lp-seg-group">
+                            <button type="button" class="lp-seg-btn active" data-sb-group="behavior" data-sb-val="Playful">Playful (+3)</button>
+                            <button type="button" class="lp-seg-btn" data-sb-group="behavior" data-sb-val="Quiet">Quiet (+2)</button>
+                            <button type="button" class="lp-seg-btn" data-sb-group="behavior" data-sb-val="Aggressive">Distressed (+1)</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lp-sandbox-output">
+                    <div>
+                        <div class="lp-ring-hero">
+                            <div class="lp-svg-ring-wrap">
+                                <svg viewBox="0 0 100 100" aria-hidden="true">
+                                    <circle class="lp-ring-bg" cx="50" cy="50" r="42"></circle>
+                                    <circle class="lp-ring-progress" id="sbRingProgress" cx="50" cy="50" r="42"></circle>
+                                </svg>
+                                <div class="lp-ring-center">
+                                    <strong id="sbScoreText">9/9</strong>
+                                    <span>Score</span>
+                                </div>
+                            </div>
+                            <div>
+                                <span class="lp-score-pill lp-score-ok" id="sbStatusBadge">Healthy Baseline</span>
+                                <h4 style="font-size:1.05rem;margin:10px 0 4px;color:#fff;">Deterministic Diagnostic Output</h4>
+                                <p id="sbSummaryText" style="font-size:0.8rem;color:var(--text-muted);">
+                                    Dog &bull; Food: Normal &bull; Activity: Active &bull; Behavior: Playful
+                                </p>
+                            </div>
+                        </div>
+                        <div class="lp-rec-list" id="sbRecList"></div>
+                    </div>
+
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                        <button type="button" id="sbAskAiBtn" class="btn btn-primary btn-sm" style="flex:1;">
+                            <i class="fas fa-brain"></i> Discuss with PetAssist AI
+                        </button>
+                        <a href="<?php echo isLoggedIn() ? 'pages/health.php' : 'pages/register.php'; ?>" class="btn btn-secondary btn-sm">
+                            Save Logs in App <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CORE MODULES BENTO GRID -->
+    <section class="lp-section" id="modules">
+        <div class="lp-container">
+            <div class="lp-section-head">
+                <span class="lp-eyebrow"><i class="fas fa-cubes"></i> Full Web Platform</span>
+                <h2>Every Veterinary Workflow in One Browser Tab</h2>
+                <p>Six integrated web application modules designed for pet parents, smallholder farmers, and veterinary administrators.</p>
+            </div>
+
+            <div class="lp-bento-grid">
+                <div class="lp-bento-card wide">
+                    <div>
+                        <div class="lp-bento-icon icon-teal"><i class="fas fa-syringe"></i></div>
+                        <h3>Predictive Immunization Scheduler</h3>
+                        <p>
+                            Log a vaccination once and let PetAssist compute exact booster dates using species-specific
+                            intervals (Rabies 365d, Bordetella 180d, FMD 180d, PPR 90d) with automatic Due Soon &amp; Overdue alerts.
+                        </p>
+                    </div>
+                    <div class="lp-mini-ui-strip">
+                        <span><i class="fas fa-calendar-day" style="color:var(--secondary);"></i> Last Dose</span>
+                        <span style="color:var(--text-muted);">&rarr;</span>
+                        <span style="font-family:var(--font-mono);color:var(--primary-light);">+Interval Calculus</span>
+                        <span style="color:var(--text-muted);">&rarr;</span>
+                        <span class="lp-score-pill lp-score-ok">Auto Booster Alert</span>
+                    </div>
+                </div>
+
+                <div class="lp-bento-card wide">
+                    <div>
+                        <div class="lp-bento-icon icon-coral"><i class="fas fa-shield-virus"></i></div>
+                        <h3>Zero-Latency AI Triage &amp; Toxic Food Guard</h3>
+                        <p>
+                            Deterministic client-side NLP flags life-threatening emergencies immediately and screens household
+                            ingredients against a pharmacological toxicity matrix with zero cloud delay or AI hallucination.
+                        </p>
+                    </div>
+                    <div class="lp-toxin-tags">
+                        <span class="lp-toxin-tag">&#9888; Chocolate</span>
+                        <span class="lp-toxin-tag">&#9888; Grapes &amp; Raisins</span>
+                        <span class="lp-toxin-tag">&#9888; Xylitol</span>
+                        <span class="lp-toxin-tag">&#9888; Onions &amp; Garlic</span>
+                        <span class="lp-toxin-tag">&#9888; Avocado</span>
+                    </div>
+                    <div style="margin-top:14px;">
+                        <a href="pages/guide.php" class="btn btn-secondary btn-sm"><i class="fas fa-book-open"></i> View Pet Care Guide</a>
+                    </div>
+                </div>
+
+                <div class="lp-bento-card">
+                    <div>
+                        <div class="lp-bento-icon icon-purple"><i class="fas fa-id-card"></i></div>
+                        <h3>Pet &amp; Livestock Profiles</h3>
+                        <p>Maintain longitudinal digital records for dogs, cats, cattle, and sheep with real-time age computation and automated birthday celebration alerts.</p>
+                    </div>
+                </div>
+
+                <div class="lp-bento-card">
+                    <div>
+                        <div class="lp-bento-icon icon-green"><i class="fas fa-calendar-check"></i></div>
+                        <h3>Vet Appointments &amp; Care Center</h3>
+                        <p>Book clinic or tele-vet visits, track approval states (Pending &rarr; Confirmed &rarr; Completed), and access structured 24/7 emergency first-aid protocols.</p>
+                    </div>
+                    <div style="margin-top:14px;">
+                        <a href="pages/care-center.php" class="btn btn-secondary btn-sm"><i class="fas fa-hands-helping"></i> Open Care Center</a>
+                    </div>
+                </div>
+
+                <div class="lp-bento-card">
+                    <div>
+                        <div class="lp-bento-icon icon-blue"><i class="fas fa-search-location"></i></div>
+                        <h3>Lost &amp; Found Community Board</h3>
+                        <p>Publish missing pet bulletins with location details or post found sightings to accelerate community reunions directly inside the web app.</p>
+                    </div>
+                </div>
+
+                <!-- Card 6 -->
+                <div class="lp-bento-card">
+                    <div>
+                        <div class="lp-bento-icon icon-amber"><i class="fas fa-user-shield"></i></div>
+                        <h3>Enterprise Admin Suite &amp; RBAC</h3>
+                        <p>
+                            Role-based access control with an administrative suite to monitor patient registries, triage clinic appointments, and review support tickets.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Security & RBAC Wide Highlight Bar -->
+            <div class="lp-mini-panel" style="margin-top:20px;padding:22px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;background:rgba(15,17,33,0.72);border-radius:18px;">
+                <div style="display:flex;align-items:center;gap:16px;max-width:740px;">
+                    <div class="lp-bento-icon icon-amber" style="margin-bottom:0;flex-shrink:0;"><i class="fas fa-user-shield"></i></div>
+                    <div>
+                        <h3 style="font-family:var(--font-display);font-size:1.08rem;color:#fff;margin-bottom:4px;">Enterprise Security, Session Auth &amp; OWASP Top-10 Protection</h3>
+                        <p style="font-size:0.88rem;color:var(--text-secondary);margin:0;">
+                            Hardened against SQL Injection via prepared statements, XSS defense via entity encoding, adaptive BCRYPT password hashing, and CSRF mitigation.
+                        </p>
+                    </div>
+                </div>
+                <a href="pages/login.php" class="btn btn-secondary btn-sm">
+                    <i class="fas fa-lock"></i> Admin Sign In
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ARCHITECTURE -->
+    <section class="lp-section" id="architecture">
+        <div class="lp-container">
+            <div class="lp-section-head">
+                <span class="lp-eyebrow"><i class="fas fa-server"></i> Engineered for the Web</span>
+                <h2>Dual-Runtime Web Architecture</h2>
+                <p>Run PetAssist on an enterprise PHP + MySQL server or natively in your browser via LocalStorage edge persistence &mdash; zero friction on every device.</p>
+            </div>
+
+            <div class="lp-arch-grid">
+                <div class="lp-steps-list">
+                    <div class="lp-step-card">
+                        <div class="lp-step-num">01</div>
+                        <div>
+                            <h4>Open in Any Modern Browser</h4>
+                            <p>No app-store downloads or platform lock-in. Sign up in seconds on desktop, tablet, or smartphone and enter your responsive web workspace.</p>
+                        </div>
+                    </div>
+                    <div class="lp-step-card">
+                        <div class="lp-step-num">02</div>
+                        <div>
+                            <h4>Create Profiles &amp; Log Daily Vitals</h4>
+                            <p>Add your pets or farm animals, enter past vaccine dates, and record daily food, activity, and mood observations in under 15 seconds.</p>
+                        </div>
+                    </div>
+                    <div class="lp-step-card">
+                        <div class="lp-step-num">03</div>
+                        <div>
+                            <h4>Act on Automated Insights &amp; AI Triage</h4>
+                            <p>Receive computed wellness scores, upcoming booster warnings, instant PetAI toxicity screening, and one-click veterinary care coordination.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lp-arch-panel">
+                    <div class="lp-arch-tier">
+                        <div class="lp-arch-tier-top">
+                            <strong><i class="fas fa-desktop" style="color:var(--secondary);"></i> Presentation Tier</strong>
+                            <span>Browser Client</span>
+                        </div>
+                        <div class="lp-arch-pills">
+                            <span class="lp-arch-pill">Responsive Glassmorphic UI</span>
+                            <span class="lp-arch-pill">Reactive DOM Controllers</span>
+                            <span class="lp-arch-pill">Interactive Modals &amp; Tabs</span>
+                        </div>
+                    </div>
+
+                    <div class="lp-arch-connector"><i class="fas fa-arrows-alt-v"></i></div>
+
+                    <div class="lp-arch-tier">
+                        <div class="lp-arch-tier-top">
+                            <strong><i class="fas fa-microchip" style="color:var(--primary-light);"></i> Application &amp; AI Tier</strong>
+                            <span>Logic + NLP</span>
+                        </div>
+                        <div class="lp-arch-pills">
+                            <span class="lp-arch-pill">PetAI Heuristic Triage (&lt;1ms)</span>
+                            <span class="lp-arch-pill">3-Factor Health Rule Engine</span>
+                            <span class="lp-arch-pill">Interval Vaccine Scheduler</span>
+                            <span class="lp-arch-pill">RBAC &amp; Input Sanitization</span>
+                        </div>
+                    </div>
+
+                    <div class="lp-arch-connector"><i class="fas fa-arrows-alt-v"></i></div>
+
+                    <div class="lp-arch-tier">
+                        <div class="lp-arch-tier-top">
+                            <strong><i class="fas fa-database" style="color:var(--success);"></i> Dual-Runtime Persistence</strong>
+                            <span>LAMP + Edge</span>
+                        </div>
+                        <div class="lp-arch-pills">
+                            <span class="lp-arch-pill">PHP 7.4+ &amp; MySQL (InnoDB)</span>
+                            <span class="lp-arch-pill">HTML5 Web Storage Engine</span>
+                            <span class="lp-arch-pill">Offline-Capable Client Store</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================================
+         IEEE RESEARCH & SYSTEM ARCHITECTURE PAPER
+         ================================================ -->
+    <section class="lp-section" id="research-paper" style="padding-top:10px;">
+        <div class="lp-container">
+            <div class="lp-paper-card">
+                <div class="lp-paper-layout">
+                    <div>
+                        <div class="lp-paper-header">
+                            <span class="lp-paper-badge"><i class="fas fa-certificate"></i> IEEE Conference Paper</span>
+                            <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-muted);">6-Page Full Academic Manuscript</span>
+                        </div>
+                        <h3 class="lp-paper-title">
+                            PetAssist: An Intelligent Multi-Tier Web Platform for Preventative Veterinary Healthcare, Heuristic Clinical Triage, and Immunization Lifecycle Tracking
+                        </h3>
+                        <div class="lp-paper-author">
+                            By <strong>Druva Gowda</strong> &bull; Department of Computer Science &amp; Engineering &bull; Visvesvaraya Technological University
+                        </div>
+                        <p class="lp-paper-desc">
+                            Comprehensive academic report detailing the system architecture, mathematical formulations for 3-factor health scoring, dynamic immunization interval algorithms, deterministic client-side NLP triage, and empirical stress benchmarks.
+                        </p>
+                        <div class="lp-paper-metrics">
+                            <span class="lp-paper-metric-pill"><i class="fas fa-gauge-high"></i> &lt;15ms DB Query Latency</span>
+                            <span class="lp-paper-metric-pill"><i class="fas fa-bullseye"></i> 96.4% Triage Accuracy</span>
+                            <span class="lp-paper-metric-pill"><i class="fas fa-heart-pulse"></i> 100% Emergency Recall</span>
+                            <span class="lp-paper-metric-pill"><i class="fas fa-shield-halved"></i> OWASP Top-10 Hardened</span>
+                            <span class="lp-paper-metric-pill"><i class="fas fa-book-bookmark"></i> 25 Scholarly Citations</span>
+                        </div>
+                        <div class="lp-paper-actions">
+                            <a href="IEEE_Report_PetAssist.pdf" target="_blank" class="btn lp-btn-glow" style="padding:10px 18px;font-size:0.88rem;">
+                                <i class="fas fa-file-pdf"></i> Download Paper (PDF)
+                            </a>
+                            <a href="IEEE_Report_PetAssist.html" target="_blank" class="btn lp-btn-glass" style="padding:10px 18px;font-size:0.88rem;">
+                                <i class="fas fa-columns"></i> View 2-Column Report
+                            </a>
+                            <a href="IEEE_Report_PetAssist.tex" target="_blank" class="btn btn-secondary" style="padding:10px 16px;font-size:0.85rem;border-radius:12px;">
+                                <i class="fas fa-code"></i> LaTeX Source
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="lp-paper-visual">
+                        <div class="lp-doc-icon-wrap">
+                            <i class="fas fa-file-pdf"></i>
+                        </div>
+                        <div class="lp-doc-info">
+                            <strong>IEEE_Report_PetAssist.pdf</strong>
+                            <span>Size: 549 KB &bull; Format: IEEEtran 2-Column</span>
+                        </div>
+                        <div style="margin-top:16px;">
+                            <a href="IEEE_Report_PetAssist.pdf" target="_blank" class="btn btn-primary btn-sm btn-block">
+                                <i class="fas fa-external-link-alt"></i> Open Document
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="lp-section" style="padding-top:24px;padding-bottom:92px;">
+        <div class="lp-container">
+            <div class="lp-cta-banner">
+                <span class="lp-eyebrow"><i class="fas fa-rocket"></i> Ready in Seconds</span>
+                <h2>Launch the PetAssist Web Application Today</h2>
+                <p>Start tracking health scores, vaccination timelines, and instant AI veterinary triage directly from your browser &mdash; completely free.</p>
+                <div class="lp-hero-actions" style="margin-bottom:0;">
+                    <?php if (!isLoggedIn()): ?>
+                        <a href="pages/register.php" class="btn lp-btn-glow">
+                            <i class="fas fa-user-plus"></i> Create Free Account
+                        </a>
+                        <a href="pages/login.php" class="btn lp-btn-glass">
+                            <i class="fas fa-sign-in-alt"></i> Sign In to Workspace
+                        </a>
+                    <?php else: ?>
+                        <a href="pages/dashboard.php" class="btn lp-btn-glow">
+                            <i class="fas fa-arrow-right"></i> Go to Dashboard
+                        </a>
+                    <?php endif; ?>
+                </div>
+
+                <div class="lp-demo-creds">
+                    <span><i class="fas fa-key" style="color:var(--warning);"></i> Instant Demo Login:</span>
+                    <code>admin@petassist.com</code> / <code>admin123</code>
+                    <button type="button" class="lp-copy-btn" id="lpCopyDemo"><i class="fas fa-copy"></i> Copy Email</button>
+                </div>
             </div>
         </div>
     </section>

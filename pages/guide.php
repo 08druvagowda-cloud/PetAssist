@@ -1,8 +1,6 @@
 <?php
-require_once '../includes/db.php';
+if (session_status() === PHP_SESSION_NONE) session_start();
 require_once '../includes/functions.php';
-session_start();
-
 require_once '../includes/header.php';
 ?>
 

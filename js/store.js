@@ -35,6 +35,66 @@ const Store = {
                 { id: 3, name: 'Bordetella', interval: 180 },
             ]));
         }
+
+        // Seed default demo pets if empty
+        const pets = JSON.parse(localStorage.getItem('pets')) || [];
+        if (pets.length === 0) {
+            pets.push({
+                id: 101,
+                user_id: 1,
+                pet_name: 'Bruno',
+                name: 'Bruno',
+                species: 'Dog',
+                breed: 'Golden Retriever',
+                dob: '2022-04-12',
+                weight: '28.5',
+                created_at: new Date().toISOString()
+            });
+            pets.push({
+                id: 102,
+                user_id: 1,
+                pet_name: 'Gauri',
+                name: 'Gauri',
+                species: 'Cow',
+                breed: 'Gir Cattle',
+                dob: '2021-08-20',
+                weight: '380',
+                created_at: new Date().toISOString()
+            });
+            localStorage.setItem('pets', JSON.stringify(pets));
+        }
+
+        // Seed default appointments if empty
+        const appts = JSON.parse(localStorage.getItem('appointments')) || [];
+        if (appts.length === 0) {
+            appts.push({
+                id: 201,
+                user_id: 1,
+                pet_id: 101,
+                issue: 'Annual Rabies booster & routine physical exam',
+                service_type: 'Vaccination Consultation',
+                date: '2026-11-28',
+                time: '10:30 AM',
+                status: 'Confirmed',
+                created_at: new Date().toISOString()
+            });
+            localStorage.setItem('appointments', JSON.stringify(appts));
+        }
+
+        // Seed default support requests if empty
+        const support = JSON.parse(localStorage.getItem('support_requests')) || [];
+        if (support.length === 0) {
+            support.push({
+                id: 301,
+                user_id: 1,
+                issue_type: 'Medical Question',
+                subject: 'Dietary Guidance for Senior Retriever',
+                message: 'Consultation request regarding joint supplements and high-protein pasture feed.',
+                status: 'Resolved',
+                created_at: new Date().toISOString()
+            });
+            localStorage.setItem('support_requests', JSON.stringify(support));
+        }
     },
 
     // --- Auth ---
@@ -60,11 +120,26 @@ const Store = {
 
     logout() {
         sessionStorage.removeItem('current_user');
-        window.location.href = '/';
+        if (window.location.pathname.includes('/pages/')) {
+            window.location.href = '../index.html';
+        } else {
+            window.location.href = 'index.html';
+        }
     },
 
     getCurrentUser() {
-        return JSON.parse(sessionStorage.getItem('current_user'));
+        let user = null;
+        try {
+            user = JSON.parse(sessionStorage.getItem('current_user'));
+        } catch (e) {
+            user = null;
+        }
+        if (!user) {
+            // Provide active demo user fallback so static pages run out-of-the-box
+            user = { id: 1, name: 'Pet Parent', email: 'user@petassist.io', role: 'user' };
+            sessionStorage.setItem('current_user', JSON.stringify(user));
+        }
+        return user;
     },
 
     // --- Helpers ---

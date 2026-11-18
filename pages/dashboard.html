@@ -13,19 +13,23 @@
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <a href="/" class="nav-logo">
-                <i class="fas fa-paw"></i>
+            <a href="../index.html" class="nav-logo">
+                <span class="lp-brand-mark"><i class="fas fa-paw"></i></span>
                 <span>PetAssist</span>
+                <span class="lp-webapp-pill">Web App</span>
             </a>
             <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
                 <span class="hamburger"></span>
             </button>
             <ul class="nav-menu" id="navMenu">
-                <li><a href="/" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
-                <li><a href="/pages/dashboard" class="nav-link active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-                <li><a href="/pages/pets" class="nav-link"><i class="fas fa-dog"></i> My Pets</a></li>
-                <li><a href="/pages/care-center" class="nav-link"><i class="fas fa-hands-helping"></i> Care Center</a></li>
-                <li><a href="/pages/guide" class="nav-link"><i class="fas fa-book"></i> Guide</a></li>
+                <li><a href="../index.html" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="dashboard.html" class="nav-link active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="pets.html" class="nav-link"><i class="fas fa-dog"></i> My Pets</a></li>
+                <li><a href="vaccinations.html" class="nav-link"><i class="fas fa-syringe"></i> Vaccinations</a></li>
+                <li><a href="health.html" class="nav-link"><i class="fas fa-heartbeat"></i> Health</a></li>
+                <li><a href="care-center.html" class="nav-link"><i class="fas fa-hands-helping"></i> Care Center</a></li>
+                <li><a href="lost-found.html" class="nav-link"><i class="fas fa-search"></i> Lost & Found</a></li>
+                <li><a href="guide.html" class="nav-link"><i class="fas fa-book"></i> Guide</a></li>
                 <li class="nav-user-section">
                     <a href="javascript:void(0)" onclick="Store.logout()" class="nav-link nav-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
                 </li>
@@ -36,16 +40,13 @@
     <div class="container" id="app-content">
         <div class="page-header" style="text-align: left;">
             <h1 id="welcome-msg">Dashboard</h1>
-            <p>Welcome back! Here's an overview of your pets.</p>
-            <script>
-                document.getElementById('welcome-msg').innerText = "Dashboard — " + Store.getCurrentUser().name;
-            </script>
+            <p>Welcome back! Here's an overview of your registered animals and healthcare timeline.</p>
         </div>
 
         <div class="admin-stats mb-32" id="stats-container">
             <div class="admin-stat-card">
                 <div class="stat-number text-primary" id="stat-pets">0</div>
-                <div class="stat-label">Total Pets</div>
+                <div class="stat-label">Total Pets &amp; Livestock</div>
             </div>
             <div class="admin-stat-card">
                 <div class="stat-number text-warning" id="stat-appts">0</div>
@@ -60,8 +61,8 @@
         <div class="grid-2">
             <div class="glass-card-static">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-                    <h3 class="section-title" style="margin:0;"><i class="fas fa-dog"></i> Pet Quick View</h3>
-                    <a href="/pages/pets" class="btn btn-sm btn-secondary">Manage</a>
+                    <h3 class="section-title" style="margin:0;"><i class="fas fa-dog"></i> Animal Quick View</h3>
+                    <a href="pets.html" class="btn btn-sm btn-secondary">Manage All</a>
                 </div>
                 <div id="pets-list">
                     <!-- Loaded via JS -->
@@ -70,18 +71,39 @@
 
             <div class="glass-card-static">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-                    <h3 class="section-title" style="margin:0;"><i class="fas fa-syringe"></i> Upcoming Tasks</h3>
+                    <h3 class="section-title" style="margin:0;"><i class="fas fa-syringe"></i> Clinical &amp; Care Shortcuts</h3>
                 </div>
-                <div class="empty-state">
-                    <i class="fas fa-check-circle"></i>
-                    <p>All tasks are caught up (Mock Data Demo).</p>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+                    <a href="care-center.html" class="btn btn-accent btn-block" style="text-decoration:none; padding:16px 12px; text-align:center; display:flex; flex-direction:column; align-items:center; gap:8px;">
+                        <i class="fas fa-hands-helping" style="font-size:1.5rem;"></i>
+                        <span>Open Care Center</span>
+                    </a>
+                    <a href="guide.html" class="btn btn-secondary btn-block" style="text-decoration:none; padding:16px 12px; text-align:center; display:flex; flex-direction:column; align-items:center; gap:8px;">
+                        <i class="fas fa-book" style="font-size:1.5rem;"></i>
+                        <span>Pet Care Guide</span>
+                    </a>
+                    <a href="health.html" class="btn btn-secondary btn-block" style="text-decoration:none; padding:16px 12px; text-align:center; display:flex; flex-direction:column; align-items:center; gap:8px;">
+                        <i class="fas fa-heartbeat" style="font-size:1.5rem; color:var(--success);"></i>
+                        <span>3-Factor Health Logs</span>
+                    </a>
+                    <a href="vaccinations.html" class="btn btn-secondary btn-block" style="text-decoration:none; padding:16px 12px; text-align:center; display:flex; flex-direction:column; align-items:center; gap:8px;">
+                        <i class="fas fa-syringe" style="font-size:1.5rem; color:var(--secondary);"></i>
+                        <span>Vaccine Scheduler</span>
+                    </a>
                 </div>
             </div>
         </div>
     </div>
 
     <script src="../js/main.js"></script>
+    <script src="../js/ai-assistant.js"></script>
     <script>
+        // Set user name
+        const currentUser = Store.getCurrentUser();
+        if (currentUser && currentUser.name) {
+            document.getElementById('welcome-msg').innerText = "Dashboard — " + currentUser.name;
+        }
+
         // Load data to dashboard
         const pets = Store.getAll('pets');
         const appts = Store.getAll('appointments').filter(a => a.status === 'Pending');
@@ -96,24 +118,29 @@
             pList.innerHTML = `
                 <div class="empty-state">
                     <i class="fas fa-paw"></i>
-                    <p>You haven't added any pets yet.</p>
-                    <a href="/pages/pets" class="btn btn-primary"><i class="fas fa-plus"></i> Add Pet</a>
+                    <p>You haven't added any pets or livestock yet.</p>
+                    <a href="pets.html" class="btn btn-primary"><i class="fas fa-plus"></i> Add Profile</a>
                 </div>`;
         } else {
+            pList.innerHTML = '';
             pets.forEach(p => {
-                 pList.innerHTML += `
-                 <div style="display:flex; align-items:center; gap:16px; margin-bottom:16px; padding:12px; background:var(--glass-surface); border-radius:var(--radius-sm); border:1px solid rgba(255,255,255,0.05);">
-                    <div style="width:50px; height:50px; border-radius:50%; background:var(--primary-dark); display:flex; align-items:center; justify-content:center; font-size:1.5rem;">
-                        🐾
+                const pName = p.pet_name || p.name || 'Unnamed';
+                const pSpec = p.species || 'Pet';
+                const pBreed = p.breed || 'Standard';
+                const icon = pSpec.toLowerCase().includes('cow') || pSpec.toLowerCase().includes('cattle') ? '🐄' : (pSpec.toLowerCase().includes('cat') ? '🐱' : '🐶');
+                pList.innerHTML += `
+                <div style="display:flex; align-items:center; gap:16px; margin-bottom:12px; padding:12px; background:var(--bg-glass); border-radius:var(--radius-sm); border:1px solid var(--border);">
+                    <div style="width:44px; height:44px; border-radius:50%; background:var(--bg-secondary); display:flex; align-items:center; justify-content:center; font-size:1.4rem;">
+                        ${icon}
                     </div>
-                    <div>
-                        <h4 style="margin:0;">${p.pet_name}</h4>
-                        <span style="font-size:0.8rem; color:var(--text-muted);">${p.species} • ${p.breed}</span>
+                    <div style="flex:1;">
+                        <h4 style="margin:0; font-size:0.98rem; color:#fff;">${pName}</h4>
+                        <span style="font-size:0.8rem; color:var(--text-muted);">${pSpec} • ${pBreed}</span>
                     </div>
-                 </div>`;
+                    <a href="health.html" class="btn btn-sm btn-secondary" style="font-size:0.75rem; padding:4px 8px;">Health Log</a>
+                </div>`;
             });
         }
     </script>
-    <script src="../js/ai-assistant.js"></script>
 </body>
 </html>

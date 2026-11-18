@@ -13,19 +13,23 @@
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <a href="/" class="nav-logo">
-                <i class="fas fa-paw"></i>
+            <a href="../index.html" class="nav-logo">
+                <span class="lp-brand-mark"><i class="fas fa-paw"></i></span>
                 <span>PetAssist</span>
+                <span class="lp-webapp-pill">Web App</span>
             </a>
             <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
                 <span class="hamburger"></span>
             </button>
             <ul class="nav-menu" id="navMenu">
-                <li><a href="/" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
-                <li><a href="/pages/dashboard" class="nav-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-                <li><a href="/pages/pets" class="nav-link active"><i class="fas fa-dog"></i> My Pets</a></li>
-                <li><a href="/pages/care-center" class="nav-link"><i class="fas fa-hands-helping"></i> Care Center</a></li>
-                <li><a href="/pages/guide" class="nav-link"><i class="fas fa-book"></i> Guide</a></li>
+                <li><a href="../index.html" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="dashboard.html" class="nav-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="pets.html" class="nav-link active"><i class="fas fa-dog"></i> My Pets</a></li>
+                <li><a href="vaccinations.html" class="nav-link"><i class="fas fa-syringe"></i> Vaccinations</a></li>
+                <li><a href="health.html" class="nav-link"><i class="fas fa-heartbeat"></i> Health</a></li>
+                <li><a href="care-center.html" class="nav-link"><i class="fas fa-hands-helping"></i> Care Center</a></li>
+                <li><a href="lost-found.html" class="nav-link"><i class="fas fa-search"></i> Lost & Found</a></li>
+                <li><a href="guide.html" class="nav-link"><i class="fas fa-book"></i> Guide</a></li>
                 <li class="nav-user-section">
                     <a href="javascript:void(0)" onclick="Store.logout()" class="nav-link nav-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
                 </li>
@@ -33,30 +37,35 @@
         </div>
     </nav>
 
-    <div class="container">
-        <div class="page-header" style="display:flex; justify-content:space-between; align-items:flex-end;">
+    <div class="container" style="padding-top:20px;">
+        <div class="page-header" style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:16px;">
             <div>
-                <h1>Manage Pets</h1>
-                <p>Add and view your furry friends.</p>
+                <h1>Manage Animals &amp; Livestock</h1>
+                <p>Register and maintain digital health records for your pets and farm animals.</p>
             </div>
-            <button class="btn btn-primary" onclick="document.getElementById('addForm').style.display='block'"><i class="fas fa-plus"></i> Add New Pet</button>
+            <button class="btn btn-primary" onclick="document.getElementById('addForm').style.display='block'"><i class="fas fa-plus"></i> Add New Profile</button>
         </div>
 
-        <div class="glass-card-static mb-32" id="addForm" style="display:none; max-width:600px;">
-            <h3 class="section-title">Add a Pet</h3>
+        <div class="glass-card-static mb-32" id="addForm" style="display:none; max-width:600px; margin:0 auto 32px;">
+            <h3 class="section-title"><i class="fas fa-paw"></i> Register New Animal Profile</h3>
             <form id="petForm">
                 <div class="form-group">
-                    <label>Pet Name</label>
-                    <input type="text" id="p_name" class="form-control" required>
+                    <label>Animal Name</label>
+                    <input type="text" id="p_name" class="form-control" placeholder="e.g. Bruno, Bella, Gauri" required>
                 </div>
                 <div class="grid-2">
                     <div class="form-group">
-                        <label>Species (Dog, Cat, etc.)</label>
-                        <input type="text" id="p_species" class="form-control" required>
+                        <label>Species</label>
+                        <select id="p_species" class="form-control" required>
+                            <option value="Dog">Dog</option>
+                            <option value="Cat">Cat</option>
+                            <option value="Cow">Cow / Cattle</option>
+                            <option value="Sheep">Sheep / Goat</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label>Breed</label>
-                        <input type="text" id="p_breed" class="form-control">
+                        <input type="text" id="p_breed" class="form-control" placeholder="e.g. Golden Retriever, Persian, Gir" required>
                     </div>
                 </div>
                 <div class="grid-2">
@@ -66,11 +75,11 @@
                     </div>
                     <div class="form-group">
                         <label>Weight (kg)</label>
-                        <input type="number" step="0.1" id="p_weight" class="form-control">
+                        <input type="number" step="0.1" id="p_weight" class="form-control" placeholder="e.g. 25.4" required>
                     </div>
                 </div>
-                <div style="display:flex; gap:16px;">
-                    <button type="submit" class="btn btn-success">Save Pet</button>
+                <div style="display:flex; gap:16px; margin-top:16px;">
+                    <button type="submit" class="btn btn-success"><i class="fas fa-check"></i> Save Animal</button>
                     <button type="button" class="btn btn-secondary" onclick="document.getElementById('addForm').style.display='none'">Cancel</button>
                 </div>
             </form>
@@ -80,28 +89,41 @@
     </div>
 
     <script src="../js/main.js"></script>
+    <script src="../js/ai-assistant.js"></script>
     <script>
         function loadPets() {
             const list = document.getElementById('pet-cards');
             list.innerHTML = '';
             const pets = Store.getAll('pets');
             
-            if (pets.length === 0) list.innerHTML = '<p class="text-muted">No pets found.</p>';
+            if (pets.length === 0) {
+                list.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><i class="fas fa-paw"></i><p>No animal profiles registered yet. Click "Add New Profile" above.</p></div>';
+                return;
+            }
             
             pets.forEach(p => {
+                const pName = p.pet_name || p.name || 'Unnamed';
+                const pSpec = p.species || 'Pet';
+                const pBreed = p.breed || 'Standard';
+                const icon = pSpec.toLowerCase().includes('cow') || pSpec.toLowerCase().includes('cattle') ? '🐄' : (pSpec.toLowerCase().includes('cat') ? '🐱' : (pSpec.toLowerCase().includes('sheep') ? '🐑' : '🐶'));
+
                 list.innerHTML += `
                 <div class="glass-card pet-card">
-                    <div style="font-size:3rem; text-align:center; padding:20px; background:var(--primary-dark); border-radius:var(--radius-md) var(--radius-md) 0 0;">
-                        🐾
+                    <div style="font-size:3rem; text-align:center; padding:24px; background:var(--bg-glass); border-bottom:1px solid var(--border);">
+                        ${icon}
                     </div>
                     <div style="padding:20px;">
-                        <h3 style="margin-bottom:8px;">${p.pet_name}</h3>
-                        <p class="text-muted" style="font-size:0.9rem; margin-bottom:16px;">${p.species} • ${p.breed}</p>
-                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; font-size:0.85rem;">
-                            <div><strong>DOB:</strong> <br> ${p.dob}</div>
-                            <div><strong>Weight:</strong> <br> ${p.weight || 'N/A'} kg</div>
+                        <h3 style="margin-bottom:4px; color:#fff;">${pName}</h3>
+                        <p class="text-muted" style="font-size:0.85rem; margin-bottom:14px;">${pSpec} &bull; ${pBreed}</p>
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; font-size:0.82rem; margin-bottom:16px; padding:10px; background:rgba(255,255,255,0.02); border-radius:8px;">
+                            <div><span style="color:var(--text-muted);">DOB:</span> <br><strong>${p.dob || '—'}</strong></div>
+                            <div><span style="color:var(--text-muted);">Weight:</span> <br><strong>${p.weight || '—'} kg</strong></div>
                         </div>
-                        <button class="btn btn-sm btn-danger" style="margin-top:16px; width:100%;" onclick="deletePet(${p.id})">Delete</button>
+                        <div style="display:flex; gap:8px;">
+                            <a href="health.html" class="btn btn-sm btn-secondary" style="flex:1; text-align:center;"><i class="fas fa-heartbeat text-success"></i> Health</a>
+                            <a href="vaccinations.html" class="btn btn-sm btn-secondary" style="flex:1; text-align:center;"><i class="fas fa-syringe text-secondary"></i> Vaccines</a>
+                            <button class="btn btn-sm btn-danger" onclick="deletePet(${p.id})"><i class="fas fa-trash"></i></button>
+                        </div>
                     </div>
                 </div>`;
             });
@@ -109,8 +131,10 @@
 
         document.getElementById('petForm').addEventListener('submit', e => {
             e.preventDefault();
+            const name = document.getElementById('p_name').value;
             Store.save('pets', {
-                pet_name: document.getElementById('p_name').value,
+                pet_name: name,
+                name: name,
                 species: document.getElementById('p_species').value,
                 breed: document.getElementById('p_breed').value,
                 dob: document.getElementById('p_dob').value,
@@ -122,7 +146,7 @@
         });
 
         function deletePet(id) {
-            if(confirm("Delete this pet?")) {
+            if (confirm("Delete this animal record?")) {
                 Store.delete('pets', id);
                 loadPets();
             }
@@ -130,6 +154,5 @@
 
         loadPets();
     </script>
-    <script src="../js/ai-assistant.js"></script>
 </body>
 </html>

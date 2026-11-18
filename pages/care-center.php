@@ -1,18 +1,26 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) session_start();
 require_once '../includes/db.php';
 require_once '../includes/functions.php';
-requireLogin();
 
-$user_id = $_SESSION['user_id'];
+$user_id = isset($_SESSION['user_id']) ? (int)$_SESSION['user_id'] : 0;
+$pets = [];
+$appointments = [];
+$support_reqs = [];
 
-// Fetch user's pets for dropdowns
-$pets_query = $conn->prepare("SELECT id, pet_name, type FROM pets WHERE user_id = ? ORDER BY pet_name");
-$pets_query->bind_param("i", $user_id);
-$pets_query->execute();
-$pets = $pets_query->get_result()->fetch_all(MYSQLI_ASSOC);
+if ($user_id > 0) {
+    // Fetch user's pets for dropdowns
+    $pets_query = $conn->prepare("SELECT id, pet_name, type FROM pets WHERE user_id = ? ORDER BY pet_name");
+    if ($pets_query) {
+        $pets_query->bind_param("i", $user_id);
+        $pets_query->execute();
+        $pets = $pets_query->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+}
 
 // Handle Add Appointment
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'add_appt') {
+    requireLogin();
     $pet_id = (int)$_POST['pet_id'];
     $issue = sanitize($_POST['issue']);
     $apt_date = sanitize($_POST['appointment_date']);
@@ -38,6 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 
 // Handle Add Support Request
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'add_support') {
+    requireLogin();
     $issue_type = sanitize($_POST['issue_type']);
     $message = sanitize($_POST['message']);
 
@@ -52,23 +61,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     redirect('care-center.php?tab=support');
 }
 
-// Fetch Appointments
-$appts_query = $conn->prepare("
-    SELECT a.*, p.pet_name 
-    FROM appointments a 
-    JOIN pets p ON a.pet_id = p.id 
-    WHERE a.user_id = ? 
-    ORDER BY a.appointment_date DESC
-");
-$appts_query->bind_param("i", $user_id);
-$appts_query->execute();
-$appointments = $appts_query->get_result()->fetch_all(MYSQLI_ASSOC);
+if ($user_id > 0) {
+    // Fetch Appointments
+    $appts_query = $conn->prepare("
+        SELECT a.*, p.pet_name 
+        FROM appointments a 
+        JOIN pets p ON a.pet_id = p.id 
+        WHERE a.user_id = ? 
+        ORDER BY a.appointment_date DESC
+    ");
+    if ($appts_query) {
+        $appts_query->bind_param("i", $user_id);
+        $appts_query->execute();
+        $appointments = $appts_query->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
 
-// Fetch Support Requests
-$support_query = $conn->prepare("SELECT * FROM support_requests WHERE user_id = ? ORDER BY created_at DESC");
-$support_query->bind_param("i", $user_id);
-$support_query->execute();
-$support_reqs = $support_query->get_result()->fetch_all(MYSQLI_ASSOC);
+    // Fetch Support Requests
+    $support_query = $conn->prepare("SELECT * FROM support_requests WHERE user_id = ? ORDER BY created_at DESC");
+    if ($support_query) {
+        $support_query->bind_param("i", $user_id);
+        $support_query->execute();
+        $support_reqs = $support_query->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+}
 
 // Determine active tab
 $active_tab = isset($_GET['tab']) ? $_GET['tab'] : 'emergency';
@@ -138,8 +153,10 @@ require_once '../includes/header.php';
             <!-- Book Form -->
             <div class="glass-card-static">
                 <h3 class="section-title"><i class="fas fa-calendar-plus"></i> Book Appointment</h3>
-                <?php if (empty($pets)): ?>
-                    <p class="text-muted">You must add a pet before booking.</p>
+                <?php if ($user_id === 0): ?>
+                    <p class="text-muted">Please <a href="login.php" class="text-primary" style="font-weight:600;">Sign In</a> to book veterinary appointments.</p>
+                <?php elseif (empty($pets)): ?>
+                    <p class="text-muted">You must add a pet before booking. <a href="pets.php" class="text-primary">Add a Pet</a></p>
                 <?php else: ?>
                 <form action="care-center.php" method="POST" id="appointmentForm">
                     <input type="hidden" name="action" value="add_appt">
@@ -207,6 +224,9 @@ require_once '../includes/header.php';
             <!-- Ask Support Form -->
             <div class="glass-card-static">
                 <h3 class="section-title"><i class="fas fa-envelope-open-text"></i> Contact Support</h3>
+                <?php if ($user_id === 0): ?>
+                    <p class="text-muted">Please <a href="login.php" class="text-primary" style="font-weight:600;">Sign In</a> to submit support inquiries.</p>
+                <?php else: ?>
                 <form action="care-center.php" method="POST" id="supportForm">
                     <input type="hidden" name="action" value="add_support">
                     <div class="form-group">
@@ -225,6 +245,7 @@ require_once '../includes/header.php';
                     </div>
                     <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-paper-plane"></i> Send Message</button>
                 </form>
+                <?php endif; ?>
             </div>
 
             <!-- List -->

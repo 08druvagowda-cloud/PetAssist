@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health &amp; Mood Tracker — PetAssist</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/store.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <span class="lp-brand-mark"><i class="fas fa-paw"></i></span>
+                <span>PetAssist</span>
+                <span class="lp-webapp-pill">Web App</span>
+            </a>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span class="hamburger"></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="../index.html" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="dashboard.html" class="nav-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="pets.html" class="nav-link"><i class="fas fa-dog"></i> My Pets</a></li>
+                <li><a href="vaccinations.html" class="nav-link"><i class="fas fa-syringe"></i> Vaccinations</a></li>
+                <li><a href="health.html" class="nav-link active"><i class="fas fa-heartbeat"></i> Health</a></li>
+                <li><a href="care-center.html" class="nav-link"><i class="fas fa-hands-helping"></i> Care Center</a></li>
+                <li><a href="lost-found.html" class="nav-link"><i class="fas fa-search"></i> Lost & Found</a></li>
+                <li><a href="guide.html" class="nav-link"><i class="fas fa-book"></i> Guide</a></li>
+                <li class="nav-user-section" id="nav-user-slot">
+                    <a href="javascript:void(0)" onclick="Store.logout()" class="nav-link nav-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top:20px;">
+        <div class="page-header" style="display:flex; justify-content:space-between; align-items:flex-end;">
+            <div>
+                <h1>Health &amp; Mood Tracker</h1>
+                <p>3-factor quantitative wellness scoring &amp; clinical status triage.</p>
+            </div>
+            <button class="btn btn-primary" onclick="document.getElementById('addHealthCard').style.display='block'">
+                <i class="fas fa-plus"></i> Log Daily Vitals
+            </button>
+        </div>
+
+        <div class="glass-card-static mb-32" id="addHealthCard" style="display:none; max-width:620px;">
+            <h3 class="section-title"><i class="fas fa-stethoscope"></i> New Health Observation</h3>
+            <form id="healthLogForm">
+                <div class="form-group">
+                    <label>Select Animal</label>
+                    <select id="h_pet" class="form-control" required></select>
+                </div>
+                <div class="grid-3">
+                    <div class="form-group">
+                        <label>Food Intake</label>
+                        <select id="h_food" class="form-control">
+                            <option value="Good">Good (+3)</option>
+                            <option value="Normal">Normal (+2)</option>
+                            <option value="Low">Low (+1)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Activity Level</label>
+                        <select id="h_activity" class="form-control">
+                            <option value="High">High (+3)</option>
+                            <option value="Medium">Medium (+2)</option>
+                            <option value="Low">Low (+1)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Behavioral Mood</label>
+                        <select id="h_behavior" class="form-control">
+                            <option value="Happy">Happy (+3)</option>
+                            <option value="Normal">Normal (+2)</option>
+                            <option value="Aggressive">Distressed (+1)</option>
+                        </select>
+                    </div>
+                </div>
+                <div style="display:flex; gap:10px; margin-top:14px;">
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i> Evaluate &amp; Save Log</button>
+                    <button type="button" class="btn btn-secondary" onclick="document.getElementById('addHealthCard').style.display='none'">Cancel</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="glass-card-static">
+            <h3 class="section-title"><i class="fas fa-history"></i> Health Log History</h3>
+            <div id="healthLogsList"></div>
+        </div>
+    </div>
+
+    <!-- Core Scripts -->
+    <script src="../js/main.js"></script>
+    <script src="../js/ai-assistant.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const pets = Store.getAll('pets');
+            const petSelect = document.getElementById('h_pet');
+            if (petSelect) {
+                if (pets.length === 0) {
+                    petSelect.innerHTML = '<option value="">No pets registered</option>';
+                } else {
+                    petSelect.innerHTML = pets.map(p => `<option value="${p.id}">${p.pet_name} (${p.type || p.species || 'Animal'})</option>`).join('');
+                }
+            }
+
+            function getStatus(food, act, beh) {
+                const map = {
+                    food: { Good: 3, Normal: 2, Low: 1 },
+                    act: { High: 3, Medium: 2, Low: 1 },
+                    beh: { Happy: 3, Normal: 2, Aggressive: 1 }
+                };
+                const total = (map.food[food] || 2) + (map.act[act] || 2) + (map.beh[beh] || 2);
+                if (total >= 7) return 'Healthy';
+                if (total >= 4) return 'Warning';
+                return 'Critical';
+            }
+
+            function renderLogs() {
+                const logs = Store.getAll('health_logs');
+                const list = document.getElementById('healthLogsList');
+                if (!list) return;
+                if (logs.length === 0) {
+                    list.innerHTML = '<div class="empty-state"><i class="fas fa-notes-medical"></i><p>No health logs recorded yet.</p></div>';
+                    return;
+                }
+                list.innerHTML = logs.map(l => {
+                    const statusClass = l.status === 'Healthy' ? 'success' : (l.status === 'Warning' ? 'warning' : 'danger');
+                    return `
+                        <div style="padding:14px;background:var(--bg-glass);border-radius:var(--radius-sm);border:1px solid var(--border);margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+                            <div>
+                                <strong style="font-size:1.05rem;">${l.pet_name || 'Pet'}</strong>
+                                <span class="badge badge-${statusClass}" style="margin-left:8px;">${l.status}</span>
+                                <div style="font-size:0.8rem;color:var(--text-secondary);margin-top:4px;">
+                                    Food: <strong>${l.food}</strong> &bull; Activity: <strong>${l.activity}</strong> &bull; Behavior: <strong>${l.behavior}</strong>
+                                </div>
+                            </div>
+                            <div>
+                                <button class="btn btn-sm btn-secondary" onclick="showPetAIAnalysisModal('${l.pet_name || 'Pet'}', 'Dog', 'Adult', '${l.food}', '${l.activity}', '${l.behavior}')">
+                                    <i class="fas fa-brain" style="color:var(--secondary);"></i> AI Health Insight
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+            renderLogs();
+
+            const form = document.getElementById('healthLogForm');
+            if (form) {
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const petId = petSelect.value;
+                    const selectedPet = pets.find(p => String(p.id) === String(petId));
+                    const food = document.getElementById('h_food').value;
+                    const activity = document.getElementById('h_activity').value;
+                    const behavior = document.getElementById('h_behavior').value;
+                    const status = getStatus(food, activity, behavior);
+
+                    Store.save('health_logs', {
+                        pet_id: petId,
+                        pet_name: selectedPet ? selectedPet.pet_name : 'Pet',
+                        food,
+                        activity,
+                        behavior,
+                        status,
+                        created_at: new Date().toLocaleDateString()
+                    });
+
+                    form.reset();
+                    document.getElementById('addHealthCard').style.display = 'none';
+                    renderLogs();
+                    alert(`Health observation saved! Diagnostic Status: ${status}`);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -4,13 +4,25 @@
   "rewrites": [
     { "source": "/index.php",               "destination": "/index.html" },
     { "source": "/pages/dashboard.php",     "destination": "/pages/dashboard.html" },
+    { "source": "/pages/dashboard",         "destination": "/pages/dashboard.html" },
     { "source": "/pages/login.php",         "destination": "/pages/login.html" },
+    { "source": "/pages/login",             "destination": "/pages/login.html" },
     { "source": "/pages/register.php",      "destination": "/pages/register.html" },
+    { "source": "/pages/register",          "destination": "/pages/register.html" },
     { "source": "/pages/pets.php",          "destination": "/pages/pets.html" },
-    { "source": "/pages/logout.php",        "destination": "/index.html" },
-    {
-      "source": "/pages/(.*)\\.php",
-      "destination": "/pages/dashboard.html"
-    }
+    { "source": "/pages/pets",              "destination": "/pages/pets.html" },
+    { "source": "/pages/care-center.php",   "destination": "/pages/care-center.html" },
+    { "source": "/pages/care-center",       "destination": "/pages/care-center.html" },
+    { "source": "/pages/guide.php",         "destination": "/pages/guide.html" },
+    { "source": "/pages/guide",             "destination": "/pages/guide.html" },
+    { "source": "/pages/health.php",        "destination": "/pages/health.html" },
+    { "source": "/pages/health",            "destination": "/pages/health.html" },
+    { "source": "/pages/vaccinations.php",  "destination": "/pages/vaccinations.html" },
+    { "source": "/pages/vaccinations",      "destination": "/pages/vaccinations.html" },
+    { "source": "/pages/lost-found.php",    "destination": "/pages/lost-found.html" },
+    { "source": "/pages/lost-found",        "destination": "/pages/lost-found.html" },
+    { "source": "/pages/admin.php",         "destination": "/pages/admin.html" },
+    { "source": "/pages/admin",             "destination": "/pages/admin.html" },
+    { "source": "/pages/logout.php",        "destination": "/index.html" }
   ]
 }

@@ -53,7 +53,8 @@
         </form>
 
         <div class="auth-footer" style="text-align:center; margin-top:24px; font-size:0.9rem;">
-            Already have an account? <a href="/pages/login" class="text-primary" style="text-decoration:none; font-weight:600;">Sign in</a>
+            Already have an account? <a href="login.html" class="text-primary" style="text-decoration:none; font-weight:600;">Sign in</a><br><br>
+            <a href="../index.html" class="text-muted"><i class="fas fa-arrow-left"></i> Back to Home</a>
         </div>
     </div>
 
@@ -68,7 +69,7 @@
             );
             if (res.success) {
                 alert("Registration successful! Please log in.");
-                window.location.href = '/pages/login';
+                window.location.href = 'login.html';
             } else {
                 const box = document.getElementById('alert-box');
                 box.style.display = 'block';

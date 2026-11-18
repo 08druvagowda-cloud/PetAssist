@@ -70,13 +70,13 @@ require_once '../includes/header.php';
 
     <!-- Birthday Banner -->
     <?php if ($has_birthday): ?>
-    <div class="birthday-banner animate-slide">
-        <i class="fas fa-birthday-cake"></i>
-        <div>
-            <h3>Happy Birthday, <?php echo $birthday_pet_name; ?>!</h3>
-            <p>Wish your furry friend a wonderful day today.</p>
+        <div class="birthday-banner animate-slide">
+            <i class="fas fa-birthday-cake"></i>
+            <div>
+                <h3>Happy Birthday, <?php echo $birthday_pet_name; ?>!</h3>
+                <p>Wish your furry friend a wonderful day today.</p>
+            </div>
         </div>
-    </div>
     <?php endif; ?>
 
     <!-- Stats -->
@@ -117,7 +117,7 @@ require_once '../includes/header.php';
                 <i class="fas fa-dog"></i> My Pets
                 <a href="pets.php" class="btn btn-sm btn-secondary" style="margin-left: auto;">Manage</a>
             </div>
-            
+
             <?php if (empty($pets)): ?>
                 <div class="empty-state">
                     <i class="fas fa-paw"></i>
@@ -127,16 +127,22 @@ require_once '../includes/header.php';
             <?php else: ?>
                 <div style="display:flex; flex-direction:column; gap:12px;">
                     <?php foreach (array_slice($pets, 0, 3) as $pet): ?>
-                        <div style="display:flex; align-items:center; justify-content:space-between; padding:12px; background:var(--bg-glass); border-radius:var(--radius-sm); border:1px solid var(--border);">
+                        <div
+                            style="display:flex; align-items:center; justify-content:space-between; padding:12px; background:var(--bg-glass); border-radius:var(--radius-sm); border:1px solid var(--border);">
                             <div style="display:flex; align-items:center; gap:12px;">
                                 <div class="pet-avatar icon-purple" style="width:40px;height:40px;font-size:1.2rem;">
-                                    <?php if($pet['type'] == 'Dog') echo '<i class="fas fa-dog"></i>'; ?>
-                                    <?php if($pet['type'] == 'Cow') echo '<i class="fas fa-cow"></i>'; ?>
-                                    <?php if($pet['type'] == 'Sheep') echo '<i class="fas fa-sheep"></i>'; ?>
+                                    <?php if ($pet['type'] == 'Dog')
+                                        echo '<i class="fas fa-dog"></i>'; ?>
+                                    <?php if ($pet['type'] == 'Cow')
+                                        echo '<i class="fas fa-cow"></i>'; ?>
+                                    <?php if ($pet['type'] == 'Sheep')
+                                        echo '<i class="fas fa-sheep"></i>'; ?>
                                 </div>
                                 <div>
-                                    <h4 style="font-size:1rem;font-weight:600;"><?php echo htmlspecialchars($pet['pet_name']); ?></h4>
-                                    <span style="font-size:0.75rem;color:var(--text-muted);"><?php echo calculateAge($pet['dob']); ?></span>
+                                    <h4 style="font-size:1rem;font-weight:600;">
+                                        <?php echo htmlspecialchars($pet['pet_name']); ?></h4>
+                                    <span
+                                        style="font-size:0.75rem;color:var(--text-muted);"><?php echo calculateAge($pet['dob']); ?></span>
                                 </div>
                             </div>
                         </div>
@@ -159,18 +165,24 @@ require_once '../includes/header.php';
                 </div>
             <?php else: ?>
                 <div style="display:flex; flex-direction:column; gap:12px;">
-                    <?php foreach ($upcoming_vaccinations as $vacc): 
+                    <?php foreach ($upcoming_vaccinations as $vacc):
                         $status = getVaccinationStatus($vacc['next_due_date']);
                         $border_class = $status == 'Overdue' ? 'vacc-overdue' : ($status == 'Due Soon' ? 'vacc-due-soon' : 'vacc-completed');
-                    ?>
-                        <div class="<?php echo $border_class; ?>" style="display:flex; align-items:center; justify-content:space-between; padding:12px 12px 12px 16px; background:var(--bg-glass); border-radius:var(--radius-sm); border-top:1px solid var(--border); border-right:1px solid var(--border); border-bottom:1px solid var(--border);">
+                        ?>
+                        <div class="<?php echo $border_class; ?>"
+                            style="display:flex; align-items:center; justify-content:space-between; padding:12px 12px 12px 16px; background:var(--bg-glass); border-radius:var(--radius-sm); border-top:1px solid var(--border); border-right:1px solid var(--border); border-bottom:1px solid var(--border);">
                             <div>
-                                <h4 style="font-size:0.95rem;font-weight:600;"><?php echo htmlspecialchars($vacc['vaccine_name']); ?></h4>
-                                <span style="font-size:0.75rem;color:var(--text-muted);">For <?php echo htmlspecialchars($vacc['pet_name']); ?></span>
+                                <h4 style="font-size:0.95rem;font-weight:600;">
+                                    <?php echo htmlspecialchars($vacc['vaccine_name']); ?></h4>
+                                <span style="font-size:0.75rem;color:var(--text-muted);">For
+                                    <?php echo htmlspecialchars($vacc['pet_name']); ?></span>
                             </div>
                             <div style="text-align:right;">
-                                <div style="font-size:0.85rem;font-weight:500;"><?php echo date('M d, Y', strtotime($vacc['next_due_date'])); ?></div>
-                                <span class="badge badge-<?php echo $status=='Overdue'?'danger':($status=='Due Soon'?'warning':'success'); ?> mt-8" style="font-size:0.65rem;">
+                                <div style="font-size:0.85rem;font-weight:500;">
+                                    <?php echo date('M d, Y', strtotime($vacc['next_due_date'])); ?></div>
+                                <span
+                                    class="badge badge-<?php echo $status == 'Overdue' ? 'danger' : ($status == 'Due Soon' ? 'warning' : 'success'); ?> mt-8"
+                                    style="font-size:0.65rem;">
                                     <?php echo $status; ?>
                                 </span>
                             </div>
@@ -180,21 +192,26 @@ require_once '../includes/header.php';
             <?php endif; ?>
         </div>
     </div>
-    
+
     <!-- PetAssist AI Assistant Banner -->
-    <div class="glass-card-static mb-32 animate-fade" style="background: linear-gradient(135deg, rgba(108, 92, 231, 0.15) 0%, rgba(0, 206, 201, 0.12) 100%); border: 1px solid rgba(108, 92, 231, 0.35);">
+    <div class="glass-card-static mb-32 animate-fade"
+        style="background: linear-gradient(135deg, rgba(108, 92, 231, 0.15) 0%, rgba(0, 206, 201, 0.12) 100%); border: 1px solid rgba(108, 92, 231, 0.35);">
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
             <div style="display:flex; align-items:center; gap:16px;">
-                <div style="width:50px; height:50px; border-radius:50%; background:linear-gradient(135deg, #6C5CE7, #00CEC9); display:flex; align-items:center; justify-content:center; color:white; font-size:1.4rem; box-shadow:0 4px 20px rgba(108,92,231,0.4);">
+                <div
+                    style="width:50px; height:50px; border-radius:50%; background:linear-gradient(135deg, #6C5CE7, #00CEC9); display:flex; align-items:center; justify-content:center; color:white; font-size:1.4rem; box-shadow:0 4px 20px rgba(108,92,231,0.4);">
                     <i class="fas fa-robot"></i>
                 </div>
                 <div>
-                    <h3 style="font-size:1.15rem; font-weight:700; color:#fff; margin-bottom:4px;">PetAssist AI Veterinary Assistant</h3>
-                    <p style="font-size:0.85rem; color:var(--text-secondary); margin:0;">Have a concern about pet symptoms, diet toxicity, or emergency care? Get instant triage insights.</p>
+                    <h3 style="font-size:1.15rem; font-weight:700; color:#fff; margin-bottom:4px;">PetAssist AI
+                        Veterinary Assistant</h3>
+                    <p style="font-size:0.85rem; color:var(--text-secondary); margin:0;">Have a concern about pet
+                        symptoms, diet toxicity, or emergency care? Get instant triage insights.</p>
                 </div>
             </div>
             <div style="display:flex; gap:10px; flex-wrap:wrap;">
-                <button class="btn btn-sm btn-outline" onclick="PetAIChatWidget.open(); PetAIChatWidget.sendChip('Check dog symptoms')">
+                <button class="btn btn-sm btn-outline"
+                    onclick="PetAIChatWidget.open(); PetAIChatWidget.sendChip('Check dog symptoms')">
                     <i class="fas fa-stethoscope"></i> Check Symptoms
                 </button>
                 <button class="btn btn-sm btn-primary" onclick="PetAIChatWidget.open()">
@@ -231,16 +248,17 @@ require_once '../includes/header.php';
 
 <!-- Birthday Modal Pop-up -->
 <?php if ($show_birthday_modal): ?>
-<div class="modal-overlay" id="birthdayModal">
-    <div class="modal">
-        <div class="modal-icon text-center" style="color:var(--warning);">
-            <i class="fas fa-birthday-cake"></i>
+    <div class="modal-overlay" id="birthdayModal">
+        <div class="modal">
+            <div class="modal-icon text-center" style="color:var(--warning);">
+                <i class="fas fa-birthday-cake"></i>
+            </div>
+            <h2>Happy Birthday!</h2>
+            <p>Today is <strong><?php echo $birthday_pet_name; ?>'s</strong> birthday. Give them some extra love and treats
+                today!</p>
+            <button class="modal-close"><i class="fas fa-times"></i> Close</button>
         </div>
-        <h2>Happy Birthday!</h2>
-        <p>Today is <strong><?php echo $birthday_pet_name; ?>'s</strong> birthday. Give them some extra love and treats today!</p>
-        <button class="modal-close"><i class="fas fa-times"></i> Close</button>
     </div>
-</div>
 <?php endif; ?>
 
 <?php require_once '../includes/footer.php'; ?>

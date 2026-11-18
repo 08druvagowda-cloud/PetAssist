@@ -5,7 +5,8 @@ require_once __DIR__ . '/functions.php';
 // Determine base path for includes
 $isRoot = basename(dirname($_SERVER['SCRIPT_FILENAME'])) !== 'pages';
 $basePath = $isRoot ? '.' : '..';
-$pagesPath = $isRoot ? 'pages/' : '';
+$pageHref = $isRoot ? 'pages/' : '';
+$homeHref = $isRoot ? 'index.php' : '../index.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,14 +26,16 @@ $pagesPath = $isRoot ? 'pages/' : '';
     
     <!-- Stylesheet -->
     <link rel="stylesheet" href="<?php echo $basePath; ?>/css/style.css">
+    <?php if (!empty($extraHead)) echo $extraHead; ?>
 </head>
-<body>
+<body<?php if (!empty($bodyClass)) echo ' class="' . htmlspecialchars($bodyClass) . '"'; ?>>
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <a href="<?php echo $basePath; ?>/index.php" class="nav-logo">
-                <i class="fas fa-paw"></i>
+            <a href="<?php echo $homeHref; ?>" class="nav-logo">
+                <span class="lp-brand-mark"><i class="fas fa-paw"></i></span>
                 <span>PetAssist</span>
+                <span class="lp-webapp-pill">Web App</span>
             </a>
 
             <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
@@ -40,19 +43,19 @@ $pagesPath = $isRoot ? 'pages/' : '';
             </button>
 
             <ul class="nav-menu" id="navMenu">
-                <li><a href="<?php echo $basePath; ?>/index.php" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="<?php echo $homeHref; ?>" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
 
                 <?php if (isLoggedIn()): ?>
-                    <li><a href="<?php echo $basePath; ?>/pages/dashboard.php" class="nav-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-                    <li><a href="<?php echo $basePath; ?>/pages/pets.php" class="nav-link"><i class="fas fa-dog"></i> My Pets</a></li>
-                    <li><a href="<?php echo $basePath; ?>/pages/vaccinations.php" class="nav-link"><i class="fas fa-syringe"></i> Vaccinations</a></li>
-                    <li><a href="<?php echo $basePath; ?>/pages/health.php" class="nav-link"><i class="fas fa-heartbeat"></i> Health</a></li>
-                    <li><a href="<?php echo $basePath; ?>/pages/care-center.php" class="nav-link"><i class="fas fa-hands-helping"></i> Care Center</a></li>
-                    <li><a href="<?php echo $basePath; ?>/pages/lost-found.php" class="nav-link"><i class="fas fa-search"></i> Lost & Found</a></li>
-                    <li><a href="<?php echo $basePath; ?>/pages/guide.php" class="nav-link"><i class="fas fa-book"></i> Guide</a></li>
+                    <li><a href="<?php echo $pageHref; ?>dashboard.php" class="nav-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li><a href="<?php echo $pageHref; ?>pets.php" class="nav-link"><i class="fas fa-dog"></i> My Pets</a></li>
+                    <li><a href="<?php echo $pageHref; ?>vaccinations.php" class="nav-link"><i class="fas fa-syringe"></i> Vaccinations</a></li>
+                    <li><a href="<?php echo $pageHref; ?>health.php" class="nav-link"><i class="fas fa-heartbeat"></i> Health</a></li>
+                    <li><a href="<?php echo $pageHref; ?>care-center.php" class="nav-link"><i class="fas fa-hands-helping"></i> Care Center</a></li>
+                    <li><a href="<?php echo $pageHref; ?>lost-found.php" class="nav-link"><i class="fas fa-search"></i> Lost & Found</a></li>
+                    <li><a href="<?php echo $pageHref; ?>guide.php" class="nav-link"><i class="fas fa-book"></i> Guide</a></li>
 
                     <?php if (isAdmin()): ?>
-                        <li><a href="<?php echo $basePath; ?>/pages/admin.php" class="nav-link nav-admin"><i class="fas fa-shield-alt"></i> Admin</a></li>
+                        <li><a href="<?php echo $pageHref; ?>admin.php" class="nav-link nav-admin"><i class="fas fa-shield-alt"></i> Admin</a></li>
                     <?php endif; ?>
 
                     <li class="nav-user-section">
@@ -60,11 +63,13 @@ $pagesPath = $isRoot ? 'pages/' : '';
                             <i class="fas fa-user-circle"></i>
                             <span><?php echo sanitize($_SESSION['user_name']); ?></span>
                         </div>
-                        <a href="<?php echo $basePath; ?>/pages/logout.php" class="nav-link nav-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                        <a href="<?php echo $pageHref; ?>logout.php" class="nav-link nav-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
                     </li>
                 <?php else: ?>
-                    <li><a href="<?php echo $basePath; ?>/pages/login.php" class="nav-link"><i class="fas fa-sign-in-alt"></i> Login</a></li>
-                    <li><a href="<?php echo $basePath; ?>/pages/register.php" class="nav-link btn-nav-register"><i class="fas fa-user-plus"></i> Register</a></li>
+                    <li><a href="<?php echo $pageHref; ?>care-center.php" class="nav-link"><i class="fas fa-hands-helping"></i> Care Center</a></li>
+                    <li><a href="<?php echo $pageHref; ?>guide.php" class="nav-link"><i class="fas fa-book"></i> Guide</a></li>
+                    <li><a href="<?php echo $pageHref; ?>login.php" class="nav-link"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                    <li><a href="<?php echo $pageHref; ?>register.php" class="nav-link btn-nav-register"><i class="fas fa-user-plus"></i> Register</a></li>
                 <?php endif; ?>
             </ul>
         </div>

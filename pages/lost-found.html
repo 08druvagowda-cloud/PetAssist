@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lost &amp; Found Pets — PetAssist</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/store.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <span class="lp-brand-mark"><i class="fas fa-paw"></i></span>
+                <span>PetAssist</span>
+                <span class="lp-webapp-pill">Web App</span>
+            </a>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span class="hamburger"></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="../index.html" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="dashboard.html" class="nav-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="pets.html" class="nav-link"><i class="fas fa-dog"></i> My Pets</a></li>
+                <li><a href="vaccinations.html" class="nav-link"><i class="fas fa-syringe"></i> Vaccinations</a></li>
+                <li><a href="health.html" class="nav-link"><i class="fas fa-heartbeat"></i> Health</a></li>
+                <li><a href="care-center.html" class="nav-link"><i class="fas fa-hands-helping"></i> Care Center</a></li>
+                <li><a href="lost-found.html" class="nav-link active"><i class="fas fa-search"></i> Lost & Found</a></li>
+                <li><a href="guide.html" class="nav-link"><i class="fas fa-book"></i> Guide</a></li>
+                <li class="nav-user-section" id="nav-user-slot">
+                    <a href="javascript:void(0)" onclick="Store.logout()" class="nav-link nav-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top:20px;">
+        <div class="page-header" style="display:flex; justify-content:space-between; align-items:flex-end;">
+            <div>
+                <h1>Community Lost &amp; Found</h1>
+                <p>Help lost animals reunite with their loving families.</p>
+            </div>
+            <button class="btn btn-primary" onclick="document.getElementById('addLFCard').style.display='block'">
+                <i class="fas fa-bullhorn"></i> Post a Notice
+            </button>
+        </div>
+
+        <div class="glass-card-static mb-32" id="addLFCard" style="display:none; max-width:620px;">
+            <h3 class="section-title"><i class="fas fa-search-location"></i> Post Animal Notice</h3>
+            <form id="lfForm">
+                <div class="form-group">
+                    <label>Notice Type</label>
+                    <select id="lf_type" class="form-control">
+                        <option value="Lost">Lost Animal (Searching)</option>
+                        <option value="Found">Found Animal (Safe / Sighting)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Pet Details &amp; Identifying Marks</label>
+                    <input type="text" id="lf_pet" class="form-control" placeholder="e.g. Beagle with red collar, microchipped" required>
+                </div>
+                <div class="form-group">
+                    <label>Last Seen Location &amp; Description</label>
+                    <textarea id="lf_desc" class="form-control" rows="3" placeholder="Where and when was the pet last seen?" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Contact Phone / Email</label>
+                    <input type="text" id="lf_contact" class="form-control" placeholder="+91 98765 43210" required>
+                </div>
+                <div style="display:flex; gap:10px; margin-top:14px;">
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Publish Bulletin</button>
+                    <button type="button" class="btn btn-secondary" onclick="document.getElementById('addLFCard').style.display='none'">Cancel</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="glass-card-static">
+            <h3 class="section-title"><i class="fas fa-list"></i> Community Board Bulletins</h3>
+            <div id="lfList"></div>
+        </div>
+    </div>
+
+    <!-- Core Scripts -->
+    <script src="../js/main.js"></script>
+    <script src="../js/ai-assistant.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            function renderLF() {
+                const posts = Store.getAll('lost_found');
+                const list = document.getElementById('lfList');
+                if (!list) return;
+                if (posts.length === 0) {
+                    list.innerHTML = '<div class="empty-state"><i class="fas fa-paw"></i><p>No lost or found notices posted yet.</p></div>';
+                    return;
+                }
+                list.innerHTML = posts.map((p, idx) => `
+                    <div style="padding:16px;background:var(--bg-glass);border-radius:var(--radius-sm);border:1px solid var(--border);margin-bottom:14px;">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                            <span class="badge badge-${p.type === 'Lost' ? 'danger' : 'success'}">${p.type}</span>
+                            <span style="font-size:0.75rem;color:var(--text-muted);">${p.date || 'Recent'}</span>
+                        </div>
+                        <h4 style="margin:4px 0 6px;color:#fff;">${p.pet_details}</h4>
+                        <p style="font-size:0.86rem;color:var(--text-secondary);margin-bottom:8px;">${p.description}</p>
+                        <div style="font-size:0.8rem;color:var(--secondary);"><i class="fas fa-phone-alt"></i> Contact: <strong>${p.contact}</strong></div>
+                    </div>
+                `).join('');
+            }
+            renderLF();
+
+            const form = document.getElementById('lfForm');
+            if (form) {
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    Store.save('lost_found', {
+                        type: document.getElementById('lf_type').value,
+                        pet_details: document.getElementById('lf_pet').value,
+                        description: document.getElementById('lf_desc').value,
+                        contact: document.getElementById('lf_contact').value,
+                        date: new Date().toLocaleDateString()
+                    });
+                    form.reset();
+                    document.getElementById('addLFCard').style.display = 'none';
+                    renderLF();
+                    alert('Notice published to community board!');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

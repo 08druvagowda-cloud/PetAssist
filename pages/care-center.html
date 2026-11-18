@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Care &amp; Support Center — PetAssist</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/store.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <span class="lp-brand-mark"><i class="fas fa-paw"></i></span>
+                <span>PetAssist</span>
+                <span class="lp-webapp-pill">Web App</span>
+            </a>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span class="hamburger"></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="../index.html" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="dashboard.html" class="nav-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="pets.html" class="nav-link"><i class="fas fa-dog"></i> My Pets</a></li>
+                <li><a href="vaccinations.html" class="nav-link"><i class="fas fa-syringe"></i> Vaccinations</a></li>
+                <li><a href="health.html" class="nav-link"><i class="fas fa-heartbeat"></i> Health</a></li>
+                <li><a href="care-center.html" class="nav-link active"><i class="fas fa-hands-helping"></i> Care Center</a></li>
+                <li><a href="lost-found.html" class="nav-link"><i class="fas fa-search"></i> Lost & Found</a></li>
+                <li><a href="guide.html" class="nav-link"><i class="fas fa-book"></i> Guide</a></li>
+                <li class="nav-user-section" id="nav-user-slot">
+                    <a href="javascript:void(0)" onclick="Store.logout()" class="nav-link nav-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top:20px;">
+        <div class="page-header">
+            <h1>Care &amp; Support Center</h1>
+            <p>Your hub for emergency first aid, veterinary appointments, and platform support.</p>
+        </div>
+
+        <div class="tabs mb-24">
+            <button class="tab-btn active" data-tab="emergency"><i class="fas fa-first-aid text-danger"></i> Emergency Help</button>
+            <button class="tab-btn" data-tab="appointments"><i class="fas fa-calendar-alt"></i> Vet Appointments</button>
+            <button class="tab-btn" data-tab="support"><i class="fas fa-headset"></i> Support</button>
+        </div>
+
+        <!-- 1. Emergency Tab -->
+        <div id="emergency" class="tab-content active">
+            <div class="glass-card-static" style="max-width:800px; margin:0 auto 32px;">
+                <div class="text-center mb-24">
+                    <div style="width:64px;height:64px;border-radius:50%;background:rgba(255,107,107,0.15);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:2rem;margin:0 auto 16px;">
+                        <i class="fas fa-ambulance"></i>
+                    </div>
+                    <h2>Emergency Veterinary Protocols</h2>
+                    <p class="text-muted">If your pet is in critical condition, stay calm and follow these immediate first-aid steps.</p>
+                </div>
+
+                <div class="alert alert-error mb-24">
+                    <i class="fas fa-phone-alt"></i>
+                    <span><strong>24/7 Animal Emergency Helpline:</strong> +91 98765 43210 / 1800-PET-EMERGENCY</span>
+                </div>
+
+                <div class="grid-2">
+                    <div style="padding:16px;background:var(--bg-glass);border-radius:var(--radius-sm);border:1px solid var(--border);">
+                        <h4><i class="fas fa-heartbeat text-danger"></i> Choking / Airway Block</h4>
+                        <p style="font-size:0.88rem;color:var(--text-secondary);margin:8px 0;">Open mouth carefully to check for foreign object. If unconscious, apply gentle chest compressions.</p>
+                    </div>
+                    <div style="padding:16px;background:var(--bg-glass);border-radius:var(--radius-sm);border:1px solid var(--border);">
+                        <h4><i class="fas fa-tint text-danger"></i> Severe Bleeding</h4>
+                        <p style="font-size:0.88rem;color:var(--text-secondary);margin:8px 0;">Apply direct pressure with a clean cloth. Elevate wound if possible. Do NOT use tourniquet without vet advice.</p>
+                    </div>
+                </div>
+
+                <div style="margin-top:20px;text-align:center;">
+                    <button class="btn btn-primary" onclick="PetAIChatWidget.open(); PetAIChatWidget.sendChip('Emergency First Aid advice')">
+                        <i class="fas fa-robot"></i> Open PetAI Emergency Assistant
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Appointments Tab -->
+        <div id="appointments" class="tab-content">
+            <div class="grid-2">
+                <div class="glass-card-static">
+                    <h3 class="section-title"><i class="fas fa-calendar-plus"></i> Book Veterinary Appointment</h3>
+                    <form id="apptForm">
+                        <div class="form-group">
+                            <label>Select Animal Profile</label>
+                            <select id="appt_pet" class="form-control" required></select>
+                        </div>
+                        <div class="form-group">
+                            <label>Reason / Clinical Symptoms</label>
+                            <input type="text" id="appt_issue" class="form-control" placeholder="e.g. Annual booster, limping, skin rash" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Preferred Consultation Date</label>
+                            <input type="date" id="appt_date" class="form-control" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-check-circle"></i> Confirm Booking</button>
+                    </form>
+                </div>
+
+                <div class="glass-card-static">
+                    <h3 class="section-title"><i class="fas fa-calendar-check"></i> My Appointments</h3>
+                    <div id="apptList"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Support Tab -->
+        <div id="support" class="tab-content">
+            <div class="grid-2">
+                <div class="glass-card-static">
+                    <h3 class="section-title"><i class="fas fa-headset"></i> Contact Platform Support</h3>
+                    <form id="supportForm">
+                        <div class="form-group">
+                            <label>Inquiry Topic</label>
+                            <select id="sup_type" class="form-control">
+                                <option>Technical Issue / Bug</option>
+                                <option>Account &amp; Data Security</option>
+                                <option>Vaccination Protocol Question</option>
+                                <option>Other General Question</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Describe your request</label>
+                            <textarea id="sup_msg" class="form-control" rows="4" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-secondary btn-block"><i class="fas fa-paper-plane"></i> Submit Ticket</button>
+                    </form>
+                </div>
+
+                <div class="glass-card-static">
+                    <h3 class="section-title"><i class="fas fa-ticket-alt"></i> Recent Support Requests</h3>
+                    <div id="supportList"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Core Scripts -->
+    <script src="../js/main.js"></script>
+    <script src="../js/ai-assistant.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Tab switching
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const tabId = btn.getAttribute('data-tab');
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    btn.classList.add('active');
+                    const target = document.getElementById(tabId);
+                    if (target) target.classList.add('active');
+                });
+            });
+
+            // Populate pets dropdown
+            const pets = Store.getAll('pets');
+            const petSelect = document.getElementById('appt_pet');
+            if (petSelect) {
+                if (pets.length === 0) {
+                    petSelect.innerHTML = '<option value="">No pets registered — Add in My Pets</option>';
+                } else {
+                    petSelect.innerHTML = pets.map(p => `<option value="${p.id}">${p.pet_name || p.name} (${p.type || p.species || 'Animal'})</option>`).join('');
+                }
+            }
+
+            // Render appointments
+            function renderAppts() {
+                const appts = Store.getAll('appointments');
+                const list = document.getElementById('apptList');
+                if (!list) return;
+                if (appts.length === 0) {
+                    list.innerHTML = '<div class="empty-state"><i class="fas fa-calendar-times"></i><p>No appointments booked yet.</p></div>';
+                    return;
+                }
+                list.innerHTML = appts.map(a => `
+                    <div style="padding:12px;background:var(--bg-glass);border-radius:var(--radius-sm);border:1px solid var(--border);margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;">
+                        <div>
+                            <strong>${a.pet_name || a.name || 'Pet'}</strong> — ${a.issue || a.service_type || 'Consultation'}
+                            <div style="font-size:0.75rem;color:var(--text-muted);">${a.appointment_date || a.date}</div>
+                        </div>
+                        <span class="badge badge-${a.status === 'Confirmed' ? 'success' : 'warning'}">${a.status || 'Pending'}</span>
+                    </div>
+                `).join('');
+            }
+            renderAppts();
+
+            // Book Appointment Form
+            const apptForm = document.getElementById('apptForm');
+            if (apptForm) {
+                apptForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const petId = petSelect.value;
+                    const selectedPet = pets.find(p => String(p.id) === String(petId));
+                    Store.save('appointments', {
+                        pet_id: petId,
+                        pet_name: selectedPet ? (selectedPet.pet_name || selectedPet.name) : 'Pet',
+                        issue: document.getElementById('appt_issue').value,
+                        appointment_date: document.getElementById('appt_date').value,
+                        status: 'Pending'
+                    });
+                    apptForm.reset();
+                    renderAppts();
+                    alert('Appointment request submitted! Status set to Pending.');
+                });
+            }
+
+            // Render support
+            function renderSupport() {
+                const reqs = Store.getAll('support_requests');
+                const list = document.getElementById('supportList');
+                if (!list) return;
+                if (reqs.length === 0) {
+                    list.innerHTML = '<div class="empty-state"><i class="fas fa-inbox"></i><p>No support tickets yet.</p></div>';
+                    return;
+                }
+                list.innerHTML = reqs.map(s => `
+                    <div style="padding:12px;background:var(--bg-glass);border-radius:var(--radius-sm);border:1px solid var(--border);margin-bottom:10px;">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+                            <strong>${s.issue_type}</strong>
+                            <span class="badge badge-success">${s.status || 'Resolved'}</span>
+                        </div>
+                        <p style="font-size:0.84rem;color:var(--text-secondary);margin:0;">${s.message}</p>
+                    </div>
+                `).join('');
+            }
+            renderSupport();
+
+            const supportForm = document.getElementById('supportForm');
+            if (supportForm) {
+                supportForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    Store.save('support_requests', {
+                        issue_type: document.getElementById('sup_type').value,
+                        message: document.getElementById('sup_msg').value,
+                        status: 'Pending'
+                    });
+                    supportForm.reset();
+                    renderSupport();
+                    alert('Support ticket logged successfully.');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
