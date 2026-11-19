@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Care Guide — PetAssist</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/store.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <span class="lp-brand-mark"><i class="fas fa-paw"></i></span>
+                <span>PetAssist</span>
+                <span class="lp-webapp-pill">Web App</span>
+            </a>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span class="hamburger"></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="../index.html" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="dashboard.html" class="nav-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="pets.html" class="nav-link"><i class="fas fa-dog"></i> My Pets</a></li>
+                <li><a href="vaccinations.html" class="nav-link"><i class="fas fa-syringe"></i> Vaccinations</a></li>
+                <li><a href="health.html" class="nav-link"><i class="fas fa-heartbeat"></i> Health</a></li>
+                <li><a href="care-center.html" class="nav-link"><i class="fas fa-hands-helping"></i> Care Center</a></li>
+                <li><a href="lost-found.html" class="nav-link"><i class="fas fa-search"></i> Lost & Found</a></li>
+                <li><a href="guide.html" class="nav-link active"><i class="fas fa-book"></i> Guide</a></li>
+                <li class="nav-user-section" id="nav-user-slot">
+                    <a href="javascript:void(0)" onclick="Store.logout()" class="nav-link nav-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top:20px;">
+        <div class="page-header">
+            <h1>Pet Care Guide</h1>
+            <p>Expert tips, tutorials, and advice to help you provide the best care.</p>
+        </div>
+
+        <!-- Featured Guides -->
+        <div class="guide-grid mb-32">
+            <!-- Dog Guide -->
+            <div class="guide-card">
+                <div class="guide-card-header">
+                    <i class="fas fa-dog text-primary"></i>
+                    <h3>Essential Dog Care</h3>
+                </div>
+                <div class="guide-card-body">
+                    <img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                        alt="Dog"
+                        style="width:100%; height:150px; object-fit:cover; border-radius:var(--radius-sm); margin-bottom:16px;">
+                    <p>Dogs thrive on routine, exercise, and balanced nutrition.</p>
+                    <ul>
+                        <li>Walk at least 30-60 minutes daily.</li>
+                        <li>Avoid feeding chocolate, grapes, and onions.</li>
+                        <li>Brush teeth 2-3 times a week.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Cow Guide -->
+            <div class="guide-card">
+                <div class="guide-card-header">
+                    <i class="fas fa-cow text-success"></i>
+                    <h3>Dairy &amp; Beef Cow Basics</h3>
+                </div>
+                <div class="guide-card-body">
+                    <img src="https://images.unsplash.com/photo-1570042225831-d98fa7577f1e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                        alt="Cow"
+                        style="width:100%; height:150px; object-fit:cover; border-radius:var(--radius-sm); margin-bottom:16px;">
+                    <p>Proper pasture management and hydration are key.</p>
+                    <ul>
+                        <li>A cow drinks 30-50 gallons of water daily.</li>
+                        <li>Ensure access to mineral blocks.</li>
+                        <li>Watch for signs of bloating after fresh pasture.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Sheep Guide -->
+            <div class="guide-card">
+                <div class="guide-card-header">
+                    <i class="fas fa-sheep text-info"></i>
+                    <h3>Sheep Flock Management</h3>
+                </div>
+                <div class="guide-card-body">
+                    <img src="https://images.unsplash.com/photo-1484557985045-edf25e08da73?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                        alt="Sheep"
+                        style="width:100%; height:150px; object-fit:cover; border-radius:var(--radius-sm); margin-bottom:16px;">
+                    <p>Preventative care is crucial for herd animals.</p>
+                    <ul>
+                        <li>Shear at least once a year before summer.</li>
+                        <li>Check hooves regularly for foot rot.</li>
+                        <li>Provide shelter from extreme sun or rain.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid-2 mb-32">
+            <!-- Training & Behavior Accordion -->
+            <div class="glass-card-static">
+                <h2 class="section-title"><i class="fas fa-brain"></i> Behavior &amp; Training</h2>
+
+                <div class="accordion-item active">
+                    <div class="accordion-header" style="cursor:pointer;padding:12px 0;font-weight:600;display:flex;justify-content:space-between;">
+                        Positive Reinforcement Basics <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="accordion-body">
+                        <p>Reward desired behaviors rather than punishing bad ones. Use high-value treats to teach new commands. Keep training sessions short (5-10 minutes) but frequent.</p>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header" style="cursor:pointer;padding:12px 0;font-weight:600;display:flex;justify-content:space-between;">
+                        Crate Training Tips <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="accordion-body">
+                        <p>Introduce the crate slowly. Place treats and favorite toys inside. Never use the crate as a punishment. It should act as a safe, comfortable den for the animal.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Toxic Foods Checklist -->
+            <div class="glass-card-static">
+                <h2 class="section-title"><i class="fas fa-skull-crossbones text-danger"></i> Toxic Foods to Avoid</h2>
+                <div style="display:flex;flex-direction:column;gap:12px;">
+                    <div style="padding:10px 14px;background:rgba(255,107,107,0.1);border-left:3px solid var(--accent);border-radius:6px;">
+                        <strong>Chocolate &amp; Caffeine:</strong> Contains theobromine which triggers cardiac arrhythmias and seizures.
+                    </div>
+                    <div style="padding:10px 14px;background:rgba(255,107,107,0.1);border-left:3px solid var(--accent);border-radius:6px;">
+                        <strong>Grapes &amp; Raisins:</strong> Highly nephrotoxic; can trigger acute, irreversible renal failure even in small quantities.
+                    </div>
+                    <div style="padding:10px 14px;background:rgba(255,107,107,0.1);border-left:3px solid var(--accent);border-radius:6px;">
+                        <strong>Onions &amp; Garlic:</strong> Causes oxidative destruction of red blood cells leading to severe hemolytic anemia.
+                    </div>
+                    <div style="padding:10px 14px;background:rgba(255,107,107,0.1);border-left:3px solid var(--accent);border-radius:6px;">
+                        <strong>Xylitol (Sweetener):</strong> Causes rapid insulin spike, severe hypoglycemia, and acute liver failure.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Core Scripts -->
+    <script src="../js/main.js"></script>
+    <script src="../js/ai-assistant.js"></script>
+    <script>
+        // Auth check for static page
+        if (typeof Store !== 'undefined') {
+            const user = Store.getCurrentUser();
+            const slot = document.getElementById('nav-user-slot');
+            if (!user && slot) {
+                slot.innerHTML = '<a href="login.html" class="nav-link"><i class="fas fa-sign-in-alt"></i> Login</a>';
+            }
+        }
+    </script>
+</body>
+</html>

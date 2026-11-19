@@ -13,17 +13,32 @@ const Store = {
         if (!localStorage.getItem('support_requests')) localStorage.setItem('support_requests', JSON.stringify([]));
         if (!localStorage.getItem('lost_found')) localStorage.setItem('lost_found', JSON.stringify([]));
         
-        // Seed default admin
-        const users = JSON.parse(localStorage.getItem('users'));
+        // Seed default accounts
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        let usersUpdated = false;
         if (!users.find(u => u.email === 'admin@petassist.com')) {
             users.push({
-                id: Date.now(),
-                name: 'Admin',
+                id: 1,
+                name: 'Administrator',
                 email: 'admin@petassist.com',
                 password: 'admin123',
                 phone: '9999999999',
                 role: 'admin'
             });
+            usersUpdated = true;
+        }
+        if (!users.find(u => u.email === 'user@petassist.com')) {
+            users.push({
+                id: 2,
+                name: 'Pet Parent',
+                email: 'user@petassist.com',
+                password: 'user123',
+                phone: '9876543210',
+                role: 'user'
+            });
+            usersUpdated = true;
+        }
+        if (usersUpdated) {
             localStorage.setItem('users', JSON.stringify(users));
         }
 
@@ -99,21 +114,34 @@ const Store = {
 
     // --- Auth ---
     register(name, email, password, phone) {
-        const users = JSON.parse(localStorage.getItem('users'));
-        if (users.find(u => u.email === email)) return { error: 'Email already exists' };
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        const cleanEmail = (email || '').toLowerCase().trim();
+        if (users.find(u => u.email.toLowerCase() === cleanEmail)) {
+            return { error: 'An account with this email already exists' };
+        }
         
-        const newUser = { id: Date.now(), name, email, password, phone, role: 'user' };
+        const newUser = {
+            id: Date.now(),
+            name: (name || 'Pet Parent').trim(),
+            email: cleanEmail,
+            password: password,
+            phone: (phone || '').trim(),
+            role: 'user'
+        };
         users.push(newUser);
         localStorage.setItem('users', JSON.stringify(users));
-        return { success: true };
+        // Auto sign-in newly registered user
+        sessionStorage.setItem('current_user', JSON.stringify(newUser));
+        return { success: true, user: newUser };
     },
 
     login(email, password) {
-        const users = JSON.parse(localStorage.getItem('users'));
-        const user = users.find(u => u.email === email && u.password === password);
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        const cleanEmail = (email || '').toLowerCase().trim();
+        const user = users.find(u => u.email.toLowerCase() === cleanEmail && u.password === password);
         if (user) {
             sessionStorage.setItem('current_user', JSON.stringify(user));
-            return { success: true };
+            return { success: true, user };
         }
         return { error: 'Invalid email or password' };
     },
@@ -128,25 +156,19 @@ const Store = {
     },
 
     getCurrentUser() {
-        let user = null;
         try {
-            user = JSON.parse(sessionStorage.getItem('current_user'));
+            return JSON.parse(sessionStorage.getItem('current_user'));
         } catch (e) {
-            user = null;
+            return null;
         }
-        if (!user) {
-            // Provide active demo user fallback so static pages run out-of-the-box
-            user = { id: 1, name: 'Pet Parent', email: 'user@petassist.io', role: 'user' };
-            sessionStorage.setItem('current_user', JSON.stringify(user));
-        }
-        return user;
     },
 
     // --- Helpers ---
     save(table, data) {
-        const records = JSON.parse(localStorage.getItem(table));
+        const records = JSON.parse(localStorage.getItem(table)) || [];
         data.id = Date.now();
-        data.user_id = this.getCurrentUser().id;
+        const user = this.getCurrentUser();
+        data.user_id = user ? user.id : 1;
         data.created_at = new Date().toISOString();
         records.push(data);
         localStorage.setItem(table, JSON.stringify(records));
@@ -166,7 +188,7 @@ const Store = {
     },
 
     delete(table, id) {
-        let records = JSON.parse(localStorage.getItem(table));
+        let records = JSON.parse(localStorage.getItem(table)) || [];
         records = records.filter(r => r.id !== id);
         localStorage.setItem(table, JSON.stringify(records));
     }
@@ -186,9 +208,15 @@ const path = window.location.pathname;
 // Support both .html URLs (local) and clean URLs (Vercel/Netlify with cleanUrls)
 const isPublicPage = 
     path.endsWith('index.html') || path === '/' || path === '' || path === '/index' ||
-    path.endsWith('login.html')    || path.endsWith('/login') ||
-    path.endsWith('register.html') || path.endsWith('/register');
+    path.endsWith('login.html') || path.endsWith('/login') || path.includes('login') ||
+    path.endsWith('register.html') || path.endsWith('/register') || path.includes('register') ||
+    path.includes('care-center') ||
+    path.includes('guide') ||
+    path.includes('presentation') ||
+    path.includes('lost-found');
 
 if (!Store.getCurrentUser() && !isPublicPage) {
-    window.location.href = '/pages/login';
+    // Only redirect to login from private app pages (dashboard, health, pets, vaccinations, admin)
+    const loginTarget = window.location.pathname.includes('/pages/') ? 'login.html' : 'pages/login.html';
+    window.location.href = loginTarget;
 }

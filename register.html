@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account — PetAssist</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="../js/store.js"></script>
+    <script src="js/store.js"></script>
+    <style>
+        body.auth-page {
+            background: radial-gradient(circle at 50% 20%, #161b31 0%, #0b0e1c 70%, #060810 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            font-family: 'Inter', sans-serif;
+            color: #ffffff;
+        }
+        .auth-card {
+            background: rgba(22, 27, 49, 0.85);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 480px;
+            box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6);
+            animation: popIn 0.3s ease-out;
+        }
+        @keyframes popIn {
+            from { opacity: 0; transform: translateY(12px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .auth-brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 6px;
+        }
+        .auth-brand i { color: #6C63FF; }
+        .demo-box {
+            background: rgba(0, 210, 211, 0.08);
+            border: 1px dashed rgba(0, 210, 211, 0.35);
+            border-radius: 12px;
+            padding: 12px 14px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .demo-text {
+            font-size: 0.82rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        .demo-text strong {
+            color: #00D2D3;
+        }
+        .btn-autofill {
+            background: rgba(0, 210, 211, 0.15);
+            border: 1px solid rgba(0, 210, 211, 0.4);
+            color: #00D2D3;
+            border-radius: 8px;
+            padding: 6px 12px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .btn-autofill:hover {
+            background: #00D2D3;
+            color: #0b0e1c;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 14px;
+        }
+        @media (max-width: 480px) {
+            .form-row { grid-template-columns: 1fr; }
+        }
+        .form-group {
+            margin-bottom: 14px;
+        }
+        .form-label {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 4px;
+            display: block;
+        }
+        .form-control {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 10px;
+            padding: 11px 14px 11px 38px;
+            color: #fff;
+            width: 100%;
+            font-size: 0.92rem;
+            box-sizing: border-box;
+            transition: border-color 0.2s;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: #6C63FF;
+            box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.25);
+        }
+        .input-icon-wrapper {
+            position: relative;
+        }
+        .input-icon {
+            position: absolute;
+            left: 13px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.9rem;
+        }
+        .btn-submit {
+            background: linear-gradient(135deg, #6C63FF 0%, #00D2D3 100%);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: 13px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            box-shadow: 0 8px 24px rgba(108, 99, 255, 0.35);
+            transition: transform 0.15s, box-shadow 0.15s;
+            margin-top: 10px;
+        }
+        .btn-submit:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 28px rgba(0, 210, 211, 0.4);
+        }
+        .alert-box {
+            display: none;
+            padding: 10px 14px;
+            margin-bottom: 16px;
+            border-radius: 8px;
+            font-size: 0.88rem;
+        }
+        .alert-error {
+            background: rgba(255, 82, 82, 0.15);
+            border: 1px solid rgba(255, 82, 82, 0.4);
+            color: #FF5252;
+        }
+        .alert-success {
+            background: rgba(0, 200, 83, 0.15);
+            border: 1px solid rgba(0, 200, 83, 0.4);
+            color: #00C853;
+        }
+    </style>
+</head>
+<body class="auth-page">
+    
+    <div class="auth-card">
+        <div class="auth-header" style="text-align:center; margin-bottom:18px;">
+            <div class="auth-brand">
+                <i class="fas fa-paw"></i>
+                <span>PetAssist</span>
+            </div>
+            <h2 style="font-size:1.35rem; font-weight:700; margin:6px 0 4px;">Create New Account</h2>
+            <p style="color:rgba(255,255,255,0.6); font-size:0.88rem; margin:0;">Join our preventative pet &amp; livestock clinical care workspace</p>
+        </div>
+
+        <!-- Auto-fill demo pill -->
+        <div class="demo-box">
+            <div class="demo-text">
+                <i class="fas fa-magic" style="color:#00D2D3; margin-right:4px;"></i> Testing? <strong>1-Click Fill Form</strong>
+            </div>
+            <button type="button" class="btn-autofill" onclick="autoFillDemo()">
+                Auto-Fill Sample
+            </button>
+        </div>
+
+        <div id="alertBox" class="alert-box"></div>
+
+        <form id="registerForm">
+            <div class="form-group">
+                <label class="form-label">Full Name</label>
+                <div class="input-icon-wrapper">
+                    <i class="fas fa-user input-icon"></i>
+                    <input type="text" id="name" class="form-control" placeholder="Dr. John Watson" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div>
+                    <label class="form-label">Email Address</label>
+                    <div class="input-icon-wrapper">
+                        <i class="fas fa-envelope input-icon"></i>
+                        <input type="email" id="email" class="form-control" placeholder="watson@vet.com" required>
+                    </div>
+                </div>
+                <div>
+                    <label class="form-label">Phone Number</label>
+                    <div class="input-icon-wrapper">
+                        <i class="fas fa-phone input-icon"></i>
+                        <input type="tel" id="phone" class="form-control" placeholder="+91 9876543210" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Create Password</label>
+                <div class="input-icon-wrapper">
+                    <i class="fas fa-lock input-icon"></i>
+                    <input type="password" id="password" class="form-control" placeholder="Minimum 4 characters" minlength="4" required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-submit">
+                <i class="fas fa-user-plus" style="margin-right:6px;"></i> Create Account &amp; Launch Workspace
+            </button>
+        </form>
+
+        <div style="text-align:center; margin-top:22px; font-size:0.9rem; color:rgba(255,255,255,0.6);">
+            Already have an account? <a href="login.html" id="linkLogin" style="color:#6C63FF; text-decoration:none; font-weight:600;">Sign in here</a><br><br>
+            <a href="../index.html" id="linkHome" style="color:rgba(255,255,255,0.5); font-size:0.85rem; text-decoration:none;">
+                <i class="fas fa-arrow-left"></i> Back to Homepage
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Resolve home and login links safely across directory roots
+        const isPagesDir = window.location.pathname.includes('/pages/');
+        const homeLink = document.getElementById('linkHome');
+        const loginLink = document.getElementById('linkLogin');
+        if (homeLink) homeLink.href = isPagesDir ? '../index.html' : 'index.html';
+        if (loginLink) loginLink.href = isPagesDir ? 'login.html' : (window.location.pathname.endsWith('.html') ? 'login.html' : 'pages/login.html');
+
+        function autoFillDemo() {
+            const id = Math.floor(100 + Math.random() * 900);
+            document.getElementById('name').value = 'Dr. Alex Morgan';
+            document.getElementById('email').value = `alex.morgan${id}@petassist.org`;
+            document.getElementById('phone').value = '+91 9811223344';
+            document.getElementById('password').value = 'secure123';
+        }
+
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const box = document.getElementById('alertBox');
+            if (typeof Store === 'undefined') {
+                box.className = 'alert-box alert-error';
+                box.style.display = 'block';
+                box.innerText = 'Database failed to load. Please refresh the page.';
+                return;
+            }
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const phone = document.getElementById('phone').value;
+
+            const res = Store.register(name, email, password, phone);
+            if (res.success) {
+                box.className = 'alert-box alert-success';
+                box.style.display = 'block';
+                box.innerHTML = `<strong>Account created!</strong> Welcome, ${name}. Launching your workspace...`;
+                
+                setTimeout(() => {
+                    const dest = 'dashboard.html';
+                    window.location.href = isPagesDir ? dest : (window.location.pathname.endsWith('.html') ? dest : `pages/${dest}`);
+                }, 500);
+            } else {
+                box.className = 'alert-box alert-error';
+                box.style.display = 'block';
+                box.innerText = res.error || 'Failed to create account';
+            }
+        });
+    </script>
+</body>
+</html>

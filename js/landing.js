@@ -30,7 +30,7 @@ function initLinkRouter() {
             link.setAttribute('href', route === 'home' ? 'index.html' : `pages/${route}.html`);
         } else {
             // Vercel / Netlify cleanUrls
-            link.setAttribute('href', route === 'home' ? '/' : `/pages/${route}`);
+            link.setAttribute('href', route === 'home' ? '/' : `pages/${route}.html`);
         }
     });
 
